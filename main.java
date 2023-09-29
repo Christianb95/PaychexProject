@@ -24,6 +24,8 @@ public class main {
         ArrayList<String> location_arr;
         ArrayList<String> tax_rate_arr;
 
+        //
+
         try {
             Class.forName(
                     "oracle.jdbc.driver.OracleDriver");
