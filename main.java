@@ -57,7 +57,7 @@ public class main {
     }
 
     public static Map<String, Object> tax(Connection con) {
-        String name = "New York Unemployment Insurance";
+        String name = "California Income Tax";
         String tax_query = "select * from TAX WHERE TAX_NAME= ?";
         Map<String, Object>tax_info = new LinkedHashMap<>();
         ArrayList<Object> query_results;
@@ -125,9 +125,24 @@ public class main {
                                       Map<String, Object> location_map){
         String tax_json;
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
+        Boolean button = true; //replace with button press
         tax_map.put("location", location_map);
         tax_map.put("tr_rate_percent", tax_rate_map);
         tax_json = gson.toJson(tax_map);
         System.out.println(tax_json);
+        if(button)
+            writeJSON(tax_json);
+    }
+    public static void writeJSON(String tax_json){
+        try {
+            File file = new File("output.json");
+            FileWriter file_writer = new FileWriter(file);
+            file_writer.write(tax_json);
+            file_writer.flush();
+            file_writer.close();
+        }
+        catch(IOException e){
+            e.printStackTrace();
+        }
     }
 }
