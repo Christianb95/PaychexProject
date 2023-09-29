@@ -1,4 +1,5 @@
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -22,9 +23,9 @@ public class main {
         //</editor-fold>
         Number tax_id = null;
         Number location_id = null;
-        Map<String, String> tax_map;
-        Map<String, String> location_map;
-        Map<String, String> tax_rate_map;
+        Map<String, Object> tax_map;
+        Map<String, Object> location_map;
+        Map<String, Object> tax_rate_map;
 
         //
 
@@ -36,9 +37,9 @@ public class main {
 //            System.out.println(tax_map.get("TAX_ID"));
 //            String test = tax_map.get("TAX_ID");
 //            System.out.println(Integer.valueOf(tax_map.get("TAX_ID")));
-            tax_id = Integer.valueOf(tax_map.get("TAX_ID"));
+            tax_id = Integer.valueOf((String) tax_map.get("TAX_ID"));
 //            System.out.println(tax_id);
-            location_id = Integer.valueOf(tax_map.get("TAX_LOCATION_ID"));
+            location_id = Integer.valueOf((String) tax_map.get("TAX_LOCATION_ID"));
 //            System.out.println(location_id);
             tax_rate_map = tax_rate(con, tax_id);
             location_map = location(con, location_id);
@@ -55,28 +56,28 @@ public class main {
         }
     }
 
-    public static Map<String, String> tax(Connection con) {
+    public static Map<String, Object> tax(Connection con) {
         String name = "New York Unemployment Insurance";
         String tax_query = "select * from TAX WHERE TAX_NAME= ?";
-        Map<String, String>tax_info = new LinkedHashMap<>();
+        Map<String, Object>tax_info = new LinkedHashMap<>();
         ArrayList<Object> query_results;
         query_results= query_builder(con, tax_query, name);
         tax_info = map_builder((ResultSet) query_results.get(0), (int) query_results.get(1),
                 (ResultSetMetaData) query_results.get(2));
         return tax_info;
     }
-    public static Map<String, String> tax_rate(Connection con, Number tax_id){
+    public static Map<String, Object> tax_rate(Connection con, Number tax_id){
         String tax_rate_query = "select * from TAX_RATE WHERE TR_TAX_ID= ?";
-        Map <String, String> tax_rate_info;
+        Map <String, Object> tax_rate_info;
         ArrayList<Object> query_results;
         query_results= query_builder(con, tax_rate_query, tax_id.toString());
         tax_rate_info = map_builder((ResultSet) query_results.get(0), (int) query_results.get(1),
                 (ResultSetMetaData) query_results.get(2));
         return tax_rate_info;
     }
-    public static Map<String, String> location(Connection con, Number location_id) {
+    public static Map<String, Object> location(Connection con, Number location_id) {
         String location_query = "select * from LOCATION WHERE LOCATION_ID= ?";
-        Map <String, String> location_info;
+        Map <String, Object> location_info;
         ArrayList<Object> query_results;
         query_results= query_builder(con, location_query, location_id.toString());
         location_info = map_builder((ResultSet) query_results.get(0), (int) query_results.get(1),
@@ -85,9 +86,9 @@ public class main {
 
         return location_info;
     }
-    public static Map<String, String> map_builder(ResultSet rs, int column_count, ResultSetMetaData metaData) {
+    public static Map<String, Object> map_builder(ResultSet rs, int column_count, ResultSetMetaData metaData) {
         //Change from ArrayList to LinkedHashMap?
-        Map<String, String> map = new LinkedHashMap<>();
+        Map<String, Object> map = new LinkedHashMap<>();
         String col_name = null;
         try{
             while (rs.next()) {
@@ -120,16 +121,13 @@ public class main {
         }
         return query_info;
     }
-    public static void toJSONWithGSON(Map<String, String> tax_map, Map<String, String> tax_rate_map,
-                                      Map<String, String> location_map){
-//        String tax_json = new Gson().toJson(tax_map);
-//        String tax_rate_json = new Gson().toJson(tax_rate_map);
-//        String location_json = new Gson().toJson(location_map);
-        String tax_json, tax_rate_json, location_json;
-        tax_map.put("location", location_map.toString());
-        tax_json = new Gson().toJson(tax_map);
+    public static void toJSONWithGSON(Map<String, Object> tax_map, Map<String, Object> tax_rate_map,
+                                      Map<String, Object> location_map){
+        String tax_json;
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+        tax_map.put("location", location_map);
+        tax_map.put("tr_rate_percent", tax_rate_map);
+        tax_json = gson.toJson(tax_map);
         System.out.println(tax_json);
-//        System.out.println(tax_rate_json);
-//        System.out.println(location_json);
     }
 }
