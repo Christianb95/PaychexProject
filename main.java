@@ -8,7 +8,7 @@ import java.sql.*;
 import java.util.*;
 import java.lang.*;
 
-/* TODO: Condense tax, tax_rate, and location into 1 function? Work with Gabe.
+/* TODO: Condense tax, tax_rate, and location into 1 method? Work with Gabe.
 */
 public class main {
     public static void main(String[] args) {
