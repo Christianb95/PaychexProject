@@ -47,6 +47,7 @@ public class main {
         }
     }
 
+
     public static Map<String, Object> tax(Connection con) {
         /*  Input: Connection
             Output: Linkedhash map with tax information for tax name given
