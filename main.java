@@ -18,7 +18,7 @@ public class main {
         String url = "jdbc:oracle:thin:@localhost:1521:xe"; //Database information
         //<editor-fold desc="Username and Password">
         String user = "system";
-        String password = "";
+        String password = "Welllightupthedark144";
         //</editor-fold>
         Number tax_id, location_id;
         Map<String, Object> tax_map, location_map, tax_rate_map;
@@ -96,11 +96,12 @@ public class main {
         /*builds query as prepared statement, and returns query info */
         ArrayList<Object> query_info = new ArrayList<>();
         try {
-            PreparedStatement stmt = con.prepareStatement(query);
+            PreparedStatement stmt = con.prepareStatement(query); //prepares query and then name is inserted to replace ?
             stmt.setString(1, name);
-            ResultSet rs = stmt.executeQuery();
-            ResultSetMetaData metaData = rs.getMetaData();
-            int column_count = metaData.getColumnCount();
+            ResultSet rs = stmt.executeQuery(); //executes SQL query and returns result set
+            ResultSetMetaData metaData = rs.getMetaData(); //gets metadata from result set to use as keys
+            int column_count = metaData.getColumnCount(); //gets column count from metadata for iteration
+            //adds to array to return info above
             query_info.add(rs);
             query_info.add(column_count);
             query_info.add(metaData);
@@ -116,11 +117,11 @@ public class main {
         Map<String, Object> map = new LinkedHashMap<>();
         String col_name;
         try{
-            while (rs.next()) {
+            while (rs.next()) { //iterates over result set
                 for (int column_ind = 1; column_ind <= column_count; column_ind++) {
-                    col_name = metaData.getColumnName(column_ind);
-                    Object object = rs.getObject(column_ind);
-                    map.put(col_name, object.toString());
+                    col_name = metaData.getColumnName(column_ind); //gets column name
+                    Object object = rs.getObject(column_ind); //gets cell value
+                    map.put(col_name, object.toString()); //adds column name and value to linked hash map as key:value pair
                 }
             }
         }
@@ -132,20 +133,21 @@ public class main {
     public static void toJSONWithGSON(Map<String, Object> tax_map, Map<String, Object> tax_rate_map,
                                       Map<String, Object> location_map){
         String tax_json;
-        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+        Gson gson = new GsonBuilder().setPrettyPrinting().create(); //uses
         Boolean button = true; //replace with button press
-        tax_map.put("location", location_map);
-        tax_map.put("tr_rate_percent", tax_rate_map);
-        tax_json = gson.toJson(tax_map);
+        tax_map.put("location", location_map); //nests location hashmap in tax hash map
+        tax_map.put("tr_rate_percent", tax_rate_map); //nests tax_rate hashmap in tax hash map
+        tax_json = gson.toJson(tax_map); //converts hash tax_map to JSON string using GSON library
         System.out.println(tax_json);
         if(button)
             writeJSON(tax_json);
     }
     public static void writeJSON(String tax_json){
+        /*Writes JSON string to JSON file */
         try {
-            File file = new File("output.json");
+            File file = new File("output.json"); //creates file and saves in current directory
             FileWriter file_writer = new FileWriter(file);
-            file_writer.write(tax_json);
+            file_writer.write(tax_json); //writes json string.
             file_writer.flush();
             file_writer.close();
         }
