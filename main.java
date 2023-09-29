@@ -20,19 +20,22 @@ public class main {
         //</editor-fold>
         Number tax_id = null;
         Number location_id = null;
+        ArrayList<String> tax_arr;
+        ArrayList<String> location_arr;
+        ArrayList<String> tax_rate_arr;
 
         try {
             Class.forName(
                     "oracle.jdbc.driver.OracleDriver");
             Connection con = DriverManager.getConnection(url, user, password);
-           ArrayList<String> tax_arr = tax(con);
-//           System.out.print(tax_arr);
-           tax_id = Integer.valueOf(tax_arr.get(1));
-           location_id = Integer.valueOf(tax_arr.get(tax_arr.size()-1));
-//           tax_rate(con, tax_id);
-           location(con, location_id);
-//                System.out.printf("%s\n%s\n", tax_id.toString(), location_id.toString());
-            System.out.println();
+            tax_arr = tax(con);
+            System.out.println(tax_arr);
+            tax_id = Integer.valueOf(tax_arr.get(1));
+            location_id = Integer.valueOf(tax_arr.get(tax_arr.size()-1));
+            tax_rate_arr = tax_rate(con, tax_id);
+            location_arr = location(con, location_id);
+            System.out.println(tax_rate_arr);
+            System.out.println(location_arr);
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -52,73 +55,63 @@ public class main {
             ResultSet rs = stmt.executeQuery();
             ResultSetMetaData metaData = rs.getMetaData();
             int column_count = metaData.getColumnCount();
-
-            while (rs.next()) {
-                for (int column_ind = 1; column_ind <= column_count; column_ind++) {
-                    col_name = metaData.getColumnName(column_ind);
-                    Object object = rs.getObject(column_ind);
-                    tax_info.add(col_name);
-                    tax_info.add(object.toString());
-//                    if (column_ind == 1) {
-//                        tax_id = (Number) object;
-//                        System.out.printf("%s:%s \n", col_name, tax_id.toString()); //change to stringbuilder
-//                    } else if (column_ind == column_count) {
-//                        location_id = (Number) object;
-//                        System.out.printf("%s:%s \n", col_name, location_id.toString()); //change to stringbuilder
-//                    } else {
-//                        System.out.printf("%s:%s \n", col_name, object.toString()); //change to stringbuilder
-//                    }
-                }
-            }
+            tax_info = arr_builder(rs, column_count, metaData);
         }
         catch (SQLException e){
             e.printStackTrace();
         }
         return tax_info;
     }
-    public static void tax_rate(Connection con, Number tax_id){
+    public static ArrayList<String> tax_rate(Connection con, Number tax_id){
         String tax_query = "select * from TAX_RATE WHERE TR_TAX_ID= ?";
         String col_name = null;
+        ArrayList <String> tax_rate_info = new ArrayList<String>();
         try {
             PreparedStatement stmt = con.prepareStatement(tax_query);
             stmt.setString(1, tax_id.toString());
             ResultSet rs = stmt.executeQuery();
             ResultSetMetaData metaData = rs.getMetaData();
             int column_count = metaData.getColumnCount();
-            while(rs.next()){
-                for(int column_ind = 1; column_ind <= column_count; column_ind++){
-                    col_name = metaData.getColumnName(column_ind);
-                    Object object = rs.getObject(column_ind);
-                    System.out.printf("%s:%s \n", col_name, object.toString());
-                }
-            }
+            tax_rate_info = arr_builder(rs, column_count, metaData);
         }
         catch (SQLException e){
             e.printStackTrace();
         }
+        return tax_rate_info;
     }
-    public static void location(Connection con, Number location_id) {
+    public static ArrayList<String> location(Connection con, Number location_id) {
         String tax_query = "select * from LOCATION WHERE LOCATION_ID= ?";
-        String col_name = null;
+        ArrayList <String> location_info = new ArrayList<String>();
         try {
             PreparedStatement stmt = con.prepareStatement(tax_query);
             stmt.setString(1, location_id.toString());
             ResultSet rs = stmt.executeQuery();
             ResultSetMetaData metaData = rs.getMetaData();
             int column_count = metaData.getColumnCount();
-            String[] location_info = new String[column_count*2];
-
+            location_info = arr_builder(rs, column_count, metaData);
+            }
+//            System.out.printf("%s", location_info[0]);
+        catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return location_info;
+    }
+    public static ArrayList<String> arr_builder(ResultSet rs, int column_count, ResultSetMetaData metaData) {
+        ArrayList<String> arr = new ArrayList<String>();
+        String col_name = null;
+        try{
             while (rs.next()) {
                 for (int column_ind = 1; column_ind <= column_count; column_ind++) {
                     col_name = metaData.getColumnName(column_ind);
                     Object object = rs.getObject(column_ind);
-                    location_info[column_ind] = col_name + object;
-                    System.out.printf("%s:%s \n", col_name, object.toString());
+                    arr.add(col_name);
+                    arr.add(object.toString());
                 }
             }
-//            System.out.printf("%s", location_info[0]);
-        } catch (SQLException e) {
+        }
+        catch (SQLException e){
             e.printStackTrace();
         }
+        return arr;
     }
 }
