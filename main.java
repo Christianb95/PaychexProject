@@ -12,13 +12,17 @@ import java.lang.*;
 */
 public class main {
     public static void main(String[] args) {
-        /*
-        Creates connection with database and calls methods
+        /*  Input: None
+            Output: None
+            Creates connection with database and calls methods
+            Gets linked hashmap for tax table, extracts values for keys location ID and tax rate ID
+            Passes those values to methods to create location and tax rate maps
+            Passes created maps to JSON converter
         */
         String url = "jdbc:oracle:thin:@localhost:1521:xe"; //Database information
         //<editor-fold desc="Username and Password">
         String user = "system";
-        String password = "Welllightupthedark144";
+        String password = "";
         //</editor-fold>
         Number tax_id, location_id;
         Map<String, Object> tax_map, location_map, tax_rate_map;
@@ -29,14 +33,9 @@ public class main {
                                                                  // Here for testing purposes. Move to SQL query class
             Connection con = DriverManager.getConnection(url, user, password);//connects to database
 
-            /*
-            Gets linked hashmap for tax table, extracts values for keys location ID and tax rate ID
-            Passes those values to methods to create location and tax rate maps
-            Passes created maps to JSON converter
-            */
             tax_map = tax(con);
-            tax_id = Integer.valueOf((String) tax_map.get("TAX_ID"));
-            location_id = Integer.valueOf((String) tax_map.get("TAX_LOCATION_ID"));
+            tax_id = Integer.valueOf((String) tax_map.get("TAX_ID")); //gets tax_ID from tax map
+            location_id = Integer.valueOf((String) tax_map.get("TAX_LOCATION_ID")); //gets location_id from location map
             tax_rate_map = tax_rate(con, tax_id);
             location_map = location(con, location_id);
             toJSONWithGSON(tax_map, tax_rate_map, location_map);
@@ -49,10 +48,11 @@ public class main {
     }
 
     public static Map<String, Object> tax(Connection con) {
-        /*
-        Test SQL query
-        Passes query to builder, and gets results set, column number, and results set metaData back
-        Passes results set, column number, and results set metaData to map builder, and returns map
+        /*  Input: Connection
+            Output: Linkedhash map with tax information for tax name given
+            Test SQL query
+            Passes query to builder, and gets results set, column number, and results set metaData back
+            Passes results set, column number, and results set metaData to map builder, and returns map
          */
         String name = "California Income Tax";
         String tax_query = "select * from TAX WHERE TAX_NAME= ?";
@@ -64,10 +64,11 @@ public class main {
         return tax_info;
     }
     public static Map<String, Object> tax_rate(Connection con, Number tax_id){
-        /*
-        Test tax_rate SQL query
-        Passes query to builder, and gets results set, column number, and results set metaData back
-        Passes results set, column number, and results set metaData to map builder, and returns map
+        /*  Input: Connection and Num tax id
+            Output: Linkedhash map of tax_rate_info table for tax id
+            Test tax_rate SQL query
+            Passes query to builder, and gets results set, column number, and results set metaData back
+            Passes results set, column number, and results set metaData to map builder, and returns map
          */
         String tax_rate_query = "select * from TAX_RATE WHERE TR_TAX_ID= ?";
         Map <String, Object> tax_rate_info;
@@ -78,10 +79,11 @@ public class main {
         return tax_rate_info;
     }
     public static Map<String, Object> location(Connection con, Number location_id) {
-        /*
-        Test location SQL query
-        Passes query to builder, and gets results set, column number, and results set metaData back
-        Passes results set, column number, and results set metaData to map builder, and returns map
+        /*  Input: Connection, and Num location id
+            Output: LinkedHash map with location information for location id
+            Test location SQL query
+            Passes query to builder, and gets results set, column number, and results set metaData back
+            Passes results set, column number, and results set metaData to map builder, and returns map
          */
         String location_query = "select * from LOCATION WHERE LOCATION_ID= ?";
         Map <String, Object> location_info;
@@ -93,7 +95,9 @@ public class main {
     }
 
     public static ArrayList<Object>query_builder(Connection con, String query, String name){
-        /*builds query as prepared statement, and returns query info */
+        /*  Input: Connection to database, String query, and String name (tax name, tax_id, or location_id)
+            Output: ArrayList of query information
+            builds query as prepared statement, and returns query info */
         ArrayList<Object> query_info = new ArrayList<>();
         try {
             PreparedStatement stmt = con.prepareStatement(query); //prepares query and then name is inserted to replace ?
@@ -113,7 +117,9 @@ public class main {
     }
 
     public static Map<String, Object> map_builder(ResultSet rs, int column_count, ResultSetMetaData metaData) {
-        /*Constructs linked hashmap from result set and result set metadata*/
+        /*  Input: ResultSet contains results from query, int num of columns for table, ResultsSetMetaData
+            Output: LinkedHash Map <String, Object>
+            Constructs linked hashmap from result set values and column names from result set metadata*/
         Map<String, Object> map = new LinkedHashMap<>();
         String col_name;
         try{
@@ -132,6 +138,10 @@ public class main {
     }
     public static void toJSONWithGSON(Map<String, Object> tax_map, Map<String, Object> tax_rate_map,
                                       Map<String, Object> location_map){
+        /*  Input: LinkedHash Map <String, Object> tax_map, tax_rate_map, location_map
+            Output: None
+            Nests hash maps and converts to JSON string. Passes JSON string to writeJSON
+        */
         String tax_json;
         Gson gson = new GsonBuilder().setPrettyPrinting().create(); //uses
         Boolean button = true; //replace with button press
@@ -143,7 +153,9 @@ public class main {
             writeJSON(tax_json);
     }
     public static void writeJSON(String tax_json){
-        /*Writes JSON string to JSON file */
+        /*  Input: String json
+            Output: None
+            Writes JSON string to JSON file */
         try {
             File file = new File("output.json"); //creates file and saves in current directory
             FileWriter file_writer = new FileWriter(file);
