@@ -22,7 +22,7 @@ public class main {
         String url = "jdbc:oracle:thin:@localhost:1521:xe"; //Database information
         //<editor-fold desc="Username and Password">
         String user = "system";
-        String password = "";
+        String password = "Welllightupthedark144";
         //</editor-fold>
         Number tax_id, location_id;
         Map<String, Object> tax_map, location_map, tax_rate_map;
@@ -144,7 +144,7 @@ public class main {
             Nests hash maps and converts to JSON string. Passes JSON string to writeJSON
         */
         String tax_json;
-        Gson gson = new GsonBuilder().setPrettyPrinting().create(); //uses
+        Gson gson = new GsonBuilder().setPrettyPrinting().create(); //uses GSON library to format JSON string
         Boolean button = true; //replace with button press
         tax_map.put("location", location_map); //nests location hashmap in tax hash map
         tax_map.put("tr_rate_percent", tax_rate_map); //nests tax_rate hashmap in tax hash map
