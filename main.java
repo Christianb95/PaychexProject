@@ -22,7 +22,7 @@ public class main {
         String url = "jdbc:oracle:thin:@localhost:1521:xe"; //Database information
         //<editor-fold desc="Username and Password">
         String user = "system";
-        String password = "";
+        String password = "Welllightupthedark144";
         //</editor-fold>
         Number tax_id, location_id;
         Map<String, Object> tax_map, location_map, tax_rate_map;
