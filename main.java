@@ -18,7 +18,7 @@ public class main {
         String url = "jdbc:oracle:thin:@localhost:1521:xe";
         //<editor-fold desc="Username and Password">
         String user = "system";
-        String password = "";
+        String password = "Welllightupthedark144";
         //</editor-fold>
         Number tax_id = null;
         Number location_id = null;
@@ -122,11 +122,14 @@ public class main {
     }
     public static void toJSONWithGSON(Map<String, String> tax_map, Map<String, String> tax_rate_map,
                                       Map<String, String> location_map){
-        String tax_json = new Gson().toJson(tax_map);
-        String tax_rate_json = new Gson().toJson(tax_rate_map);
-        String location_json = new Gson().toJson(location_map);
+//        String tax_json = new Gson().toJson(tax_map);
+//        String tax_rate_json = new Gson().toJson(tax_rate_map);
+//        String location_json = new Gson().toJson(location_map);
+        String tax_json, tax_rate_json, location_json;
+        tax_map.put("location", location_map.toString());
+        tax_json = new Gson().toJson(tax_map);
         System.out.println(tax_json);
-        System.out.println(tax_rate_json);
-        System.out.println(location_json);
+//        System.out.println(tax_rate_json);
+//        System.out.println(location_json);
     }
 }
