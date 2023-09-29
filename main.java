@@ -18,7 +18,7 @@ public class main {
         String url = "jdbc:oracle:thin:@localhost:1521:xe";
         //<editor-fold desc="Username and Password">
         String user = "system";
-        String password = "Welllightupthedark144";
+        String password = "";
         //</editor-fold>
         Number tax_id = null;
         Number location_id = null;
