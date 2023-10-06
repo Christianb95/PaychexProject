@@ -1,52 +1,27 @@
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-import java.io.*;
-import java.sql.*;
-import java.util.*;
-import java.lang.*;
-
-/* TODO: Condense tax, tax_rate, and location into 1 method? Work with Gabe.
-*/
-public class main {
+public class Main {
     public static void main(String[] args) {
-        /*  Input: None
-            Output: None
-            Creates connection with database and calls methods
-            Gets linked hashmap for tax table, extracts values for keys location ID and tax rate ID
-            Passes those values to methods to create location and tax rate maps
-            Passes created maps to JSON converter
-        */
-        String url = "jdbc:oracle:thin:@localhost:1521:xe"; //Database information
-        //<editor-fold desc="Username and Password">
-        String user = "system";
-        String password = "";
-        //</editor-fold>
-        Number tax_id, location_id;
-        Map<String, Object> tax_map, location_map, tax_rate_map;
+        String url = "jdbc:mysql://localhost:3306/your_database";
+        String username = "your_username";
+        String password = "your_password";
+
+        DatabaseManager dbManager = new DatabaseManager(url, username, password);
+
+        String query = "SELECT * FROM your_table";
+        ResultSet resultSet = dbManager.executeQuery(query);
 
         try {
-            Class.forName(
-                    "oracle.jdbc.driver.OracleDriver"); //Driver information.
-                                                                 // Here for testing purposes. Move to SQL query class
-            Connection con = DriverManager.getConnection(url, user, password);//connects to database
+            while (resultSet.next()) {
+                // Access data using resultSet.getXXX() methods
+                int id = resultSet.getInt("id");
+                String name = resultSet.getString("name");
 
-            tax_map = sqlQuery.tax(con);
-            tax_id = Integer.valueOf((String) tax_map.get("TAX_ID")); //gets tax_ID from tax map
-            location_id = Integer.valueOf((String) tax_map.get("TAX_LOCATION_ID")); //gets location_id from location map
-            tax_rate_map = sqlQuery.tax_rate(con, tax_id);
-            location_map = sqlQuery.location(con, location_id);
-            toJSON.toJSONWithGSON(tax_map, tax_rate_map, location_map);
-
-        }
-        catch (SQLException e) {
+                // Process the data as needed
+                System.out.println("ID: " + id + ", Name: " + name);
+            }
+        } catch (SQLException e) {
             e.printStackTrace();
         }
-        catch (ClassNotFoundException e) {
-            throw new RuntimeException(e);
-        }
-    }
 
+        dbManager.closeConnection();
+    }
 }
