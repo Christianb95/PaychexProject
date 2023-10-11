@@ -10,7 +10,6 @@ import java.lang.*;
 
 /* TODO: Add public, protected, and private for variables and methods. Refactor to correctly process multiple tables and more advanced SQL queries.
 */
-
 public class laura_main {
     public static void main(String[] args) {
         /*  Input: None
