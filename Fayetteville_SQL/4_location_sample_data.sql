@@ -1,0 +1,13 @@
+Insert into LOCATION
+   (LOCATION_ID, LOCATION_NAME, LOCATION_SHORT_NAME)
+ Values
+   (1000000, 'California', 'CA');
+Insert into LOCATION
+   (LOCATION_ID, LOCATION_NAME, LOCATION_SHORT_NAME)
+ Values
+   (1000001, 'New York', 'NY');
+Insert into LOCATION
+   (LOCATION_ID, LOCATION_NAME, LOCATION_SHORT_NAME)
+ Values
+   (1000002, 'United States', 'US');
+COMMIT;
