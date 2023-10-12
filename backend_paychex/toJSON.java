@@ -8,7 +8,7 @@ import java.sql.*;
 import java.util.*;
 import java.lang.*;
 
-/*TODO: store SQL results, convert to format to nest easily?, convert to JSON
+/*TODO: store SQL results, convert to format to nest easily?, Refactor to make more object oriented.
  */
 public class toJSON {
     public static Map<String, Object> map_builder(ResultSet rs, int column_count, ResultSetMetaData metaData) {
