@@ -1,4 +1,4 @@
-package com.example.backend_paychex;
+package backend.com.example.backend_paychex;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
