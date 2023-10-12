@@ -11,12 +11,19 @@ import java.lang.*;
 /*TODO: store SQL results, convert to format to nest easily?, Refactor to make more object oriented.
  */
 public class toJSON {
-    protected toJSON(ResultSet rs, int column_count, ResultSetMetaData metaData){
-        private this.rs = rs;
-        private this.column_count = column_count;
-        private this.metadata = metaData;
+    private ResultSet rs;
+    private int columnCount;
+    private ResultSetMetaData metaData;
+    private Map<String, Object> resultMap;
+    protected toJSON(Array query_results) {
+        this.rs = query_results.get(0);
+        this.columnCount = query_results.get(1);
+        this.metaData = query_results.get(2);
+        try{
+
+        }
     }
-    public static Map<String, Object> map_builder(ResultSet rs, int column_count, ResultSetMetaData metaData) {
+    protected setMap() {
         /*  Input: ResultSet contains results from query, int num of columns for table, ResultsSetMetaData
             Output: LinkedHash Map <String, Object>
             Constructs linked hashmap from result set values and column names from result set metadata*/
@@ -27,19 +34,18 @@ public class toJSON {
                 for (int column_ind = 1; column_ind <= column_count; column_ind++) {
                     col_name = metaData.getColumnName(column_ind); //gets column name
                     Object object = rs.getObject(column_ind); //gets cell value
-                    map.put(col_name, object.toString()); //adds column name and value to linked hash map as key:value pair
+                    resultMap.put(col_name, object.toString()); //adds column name and value to linked hash map as key:value pair
                 }
             }
         }
         catch (SQLException e){
             e.printStackTrace();
         }
-        return map;
     }
     //TODO: Make more flexible
 //    public static void toJSONWithGSON(Map<String, Object> tax_map, Map<String, Object> tax_rate_map,
 //                                      Map<String, Object> location_map)
-        public static void toJSONWithGSON(Map<String, Object> tax_map){
+        protected void toJSONWithGSON(Map<String, Object> tax_map){
         /*  Input: LinkedHash Map <String, Object> tax_map, tax_rate_map, location_map
             Output: None
             Nests hash maps and converts to JSON string. Passes JSON string to writeJSON
@@ -56,7 +62,7 @@ public class toJSON {
         if(button)
             writeJSON(tax_json);
     }
-    public static void writeJSON(String tax_json) {
+    protected void writeJSON(String tax_json) {
         /*  Input: String json
             Output: None
             Writes JSON string to JSON file */
