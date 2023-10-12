@@ -20,7 +20,23 @@ public class toJSON {
         this.rs = (ResultSet) query_results.get(0);
         this.columnCount = (int) query_results.get(1);
         this.metaData = (ResultSetMetaData) query_results.get(2);
+        this.resultMap = resultMap;
         setMap();
+    }
+    public Map<String, Object> getMap(){
+        return resultMap;
+    }
+
+    public int getColCount(){
+        return columnCount;
+    }
+
+    public ResultSetMetaData getMetaData(){
+        return metaData;
+    }
+
+    public ResultSet getResultSet(){
+        return rs;
     }
     protected void setMap() {
         /*  Input: ResultSet contains results from query, int num of columns for table, ResultsSetMetaData
