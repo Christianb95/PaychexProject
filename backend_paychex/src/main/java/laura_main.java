@@ -1,12 +1,6 @@
-package backend;
-
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.io.*;
-import java.sql.*;
 import java.util.*;
 import java.lang.*;
 
@@ -43,9 +37,11 @@ public class laura_main {
 //            toJSON.toJSONWithGSON(tax_map, tax_rate_map, location_map);
             Map<String, Object>tax_info;
             ArrayList<Object> query_results;
+            System.out.println("Here");
             Scanner myObj = new Scanner(System.in);
             String query = myObj.nextLine();
             query_results= sqlQuery.query_builder(con, query);
+            System.out.println("Here 2");
 
         }
         catch (SQLException e) {

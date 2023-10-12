@@ -1,10 +1,7 @@
-package backend;
-
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 
-import java.lang.reflect.Array;
 import java.io.*;
 import java.sql.*;
 import java.util.*;
