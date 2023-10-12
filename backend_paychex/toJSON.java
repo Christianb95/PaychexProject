@@ -11,6 +11,11 @@ import java.lang.*;
 /*TODO: store SQL results, convert to format to nest easily?, Refactor to make more object oriented.
  */
 public class toJSON {
+    protected toJSON(ResultSet rs, int column_count, ResultSetMetaData metaData){
+        private this.rs = rs;
+        private this.column_count = column_count;
+        private this.metadata = metaData;
+    }
     public static Map<String, Object> map_builder(ResultSet rs, int column_count, ResultSetMetaData metaData) {
         /*  Input: ResultSet contains results from query, int num of columns for table, ResultsSetMetaData
             Output: LinkedHash Map <String, Object>
