@@ -6,7 +6,7 @@ import java.io.*;
 import java.sql.*;
 import java.util.*;
 import java.lang.*;
-/*TODO: store SQL results, convert to format to nest easily?, Refactor to make more object oriented.
+/*TODO: store SQL results, convert to format to nest easily?, remove getter methods? Necessary or not?
  */
 public class toJSON {
     private ResultSet rs;
