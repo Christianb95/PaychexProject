@@ -20,7 +20,6 @@ public class toJSON {
         this.rs = (ResultSet) query_results.get(0);
         this.columnCount = (int) query_results.get(1);
         this.metaData = (ResultSetMetaData) query_results.get(2);
-        this.resultMap = resultMap;
         setMap();
     }
     public Map<String, Object> getMap(){
