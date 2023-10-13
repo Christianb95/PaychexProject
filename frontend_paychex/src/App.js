@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 /* React Input box example */
 class InputBoxExample extends Component {
     constructor() {
+
         super();
         this.state = {
             inputValue: '' // Initialize the input value as an empty string
