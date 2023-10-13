@@ -12,7 +12,8 @@ public class toJSON {
     private ResultSet rs;
     private int columnCount;
     private ResultSetMetaData metaData;
-    private Map<String, Object> resultMap;
+    private String jsonStr;
+    private Map <String, Object> resultMap;
     protected toJSON(ArrayList query_results) {
         this.rs = (ResultSet) query_results.get(0);
         this.columnCount = (int) query_results.get(1);
@@ -34,6 +35,8 @@ public class toJSON {
     public ResultSet getResultSet(){
         return rs;
     }
+
+    public String getJsonStr(){return jsonStr;}
     protected void setMap() {
         /*  Input: ResultSet contains results from query, int num of columns for table, ResultsSetMetaData
             Output: LinkedHash Map <String, Object>
@@ -56,20 +59,20 @@ public class toJSON {
     //TODO: Make more flexible
 //    public static void toJSONWithGSON(Map<String, Object> tax_map, Map<String, Object> tax_rate_map,
 //                                      Map<String, Object> location_map)
-        protected void toJSONWithGSON(Map<String, Object> tax_map){
+    protected void toJSONWithGSON(Map<String, Object> tax_map){
         /*  Input: LinkedHash Map <String, Object> tax_map, tax_rate_map, location_map
             Output: None
             Nests hash maps and converts to JSON string. Passes JSON string to writeJSON
         */
-        String tax_json;
         Gson gson = new GsonBuilder().setPrettyPrinting().create(); //uses GSON library to format JSON string
         Boolean button = true; //TODO: replace with button press
 //        if (!location_map.isEmpty())
 //            tax_map.put("location", location_map); //nests location hashmap in tax hash map
 //        if (!tax_rate_map.isEmpty())
 //            tax_map.put("tr_rate_percent", tax_rate_map); //nests tax_rate hashmap in tax hash map
-        tax_json = gson.toJson(tax_map); //converts hash tax_map to JSON string using GSON library
-        System.out.println(tax_json); //TODO: replace with display
+        //TODO Test to see if private resultMap causes issue with conversion?
+        jsonStr = gson.toJson(resultMap); //converts hash tax_map to JSON string using GSON library
+        System.out.println(jsonStr); //TODO: replace with display and getter
     }
     protected void writeJSON(String tax_json) {
         /*  Input: String json
