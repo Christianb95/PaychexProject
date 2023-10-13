@@ -1,5 +1,6 @@
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import lombok.Getter;
 
 
 import java.io.*;
@@ -9,8 +10,11 @@ import java.lang.*;
 /*TODO: store SQL results, convert to format to nest easily?, Refactor to make more object oriented.
  */
 public class toJSON {
+    @Getter
     private ResultSet rs;
+    @Getter
     private int columnCount;
+    @Getter
     private ResultSetMetaData metaData;
     private String jsonStr;
     private Map <String, Object> resultMap;
@@ -18,25 +22,29 @@ public class toJSON {
         this.rs = (ResultSet) query_results.get(0);
         this.columnCount = (int) query_results.get(1);
         this.metaData = (ResultSetMetaData) query_results.get(2);
+        //Below run automatically. May need to change config based on testing
         setMap();
+        toJSONWithGSON();
     }
     public Map<String, Object> getMap(){
         return resultMap;
     }
 
-    public int getColCount(){
-        return columnCount;
-    }
+//    public int getColCount(){
+//        return columnCount;
+//    }
 
-    public ResultSetMetaData getMetaData(){
-        return metaData;
-    }
+//    public ResultSetMetaData getMetaData(){
+//        return metaData;
+//    }
+//
+//    public ResultSet getResultSet(){
+//        return rs;
+//    }
 
-    public ResultSet getResultSet(){
-        return rs;
+    public String getJsonStr(){
+        return jsonStr;
     }
-
-    public String getJsonStr(){return jsonStr;}
     protected void setMap() {
         /*  Input: ResultSet contains results from query, int num of columns for table, ResultsSetMetaData
             Output: LinkedHash Map <String, Object>
@@ -56,11 +64,11 @@ public class toJSON {
             e.printStackTrace();
         }
     }
-    //TODO: Make more flexible
 //    public static void toJSONWithGSON(Map<String, Object> tax_map, Map<String, Object> tax_rate_map,
 //                                      Map<String, Object> location_map)
-    protected void toJSONWithGSON(Map<String, Object> tax_map){
-        /*  Input: LinkedHash Map <String, Object> tax_map, tax_rate_map, location_map
+//TODO: Make more flexible. Handle complex queries.
+    protected void toJSONWithGSON(){
+        /*  Input: Map<String, Object>
             Output: None
             Nests hash maps and converts to JSON string. Passes JSON string to writeJSON
         */
@@ -74,14 +82,14 @@ public class toJSON {
         jsonStr = gson.toJson(resultMap); //converts hash tax_map to JSON string using GSON library
         System.out.println(jsonStr); //TODO: replace with display and getter
     }
-    protected void writeJSON(String tax_json) {
+    protected void writeJSON() {
         /*  Input: String json
             Output: None
             Writes JSON string to JSON file */
         try {
             File file = new File("output.json"); //creates file and saves in current directory
             FileWriter file_writer = new FileWriter(file);
-            file_writer.write(tax_json); //writes json string.
+            file_writer.write(jsonStr); //writes json string.
             file_writer.flush();
             file_writer.close();
         } catch (IOException e) {
