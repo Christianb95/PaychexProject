@@ -1,25 +1,30 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { Component } from 'react';
+/* React Input box example */
+class InputBoxExample extends Component {
+    constructor() {
+        super();
+        this.state = {
+            inputValue: '' // Initialize the input value as an empty string
+        };
+    }
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Frontend
-        </a>
-      </header>
-    </div>
-  );
+    handleInputChange = (e) => {
+        this.setState({ inputValue: e.target.value });
+    }
+
+    render() {
+        return (
+            <div>
+                <h2>Input Box Example</h2>
+                <input
+                    type="text"
+                    value={this.state.inputValue}
+                    onChange={this.handleInputChange}
+                />
+                <p>You typed: {this.state.inputValue}</p>
+            </div>
+        );
+    }
 }
 
-export default App;
+export default InputBoxExample;

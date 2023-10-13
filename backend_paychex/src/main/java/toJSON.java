@@ -6,7 +6,7 @@ import java.io.*;
 import java.sql.*;
 import java.util.*;
 import java.lang.*;
-/*TODO: store SQL results, convert to format to nest easily?, Refactor to make more object oriented.
+/*TODO: convert to format to nest easily?, Refactor to make more object oriented.
  */
 public class toJSON {
     private ResultSet rs;
@@ -53,7 +53,7 @@ public class toJSON {
             e.printStackTrace();
         }
     }
-    //TODO: Make more flexible
+    //TODO: Make more flexible, handle complex SQL queries
 //    public static void toJSONWithGSON(Map<String, Object> tax_map, Map<String, Object> tax_rate_map,
 //                                      Map<String, Object> location_map)
         protected void toJSONWithGSON(Map<String, Object> tax_map){
@@ -63,13 +63,13 @@ public class toJSON {
         */
         String tax_json;
         Gson gson = new GsonBuilder().setPrettyPrinting().create(); //uses GSON library to format JSON string
-        Boolean button = true; //TODO: replace with button press
+        Boolean button = true; //TODO: replace with button press?
 //        if (!location_map.isEmpty())
 //            tax_map.put("location", location_map); //nests location hashmap in tax hash map
 //        if (!tax_rate_map.isEmpty())
 //            tax_map.put("tr_rate_percent", tax_rate_map); //nests tax_rate hashmap in tax hash map
         tax_json = gson.toJson(tax_map); //converts hash tax_map to JSON string using GSON library
-        System.out.println(tax_json); //TODO: replace with display
+        System.out.println(tax_json); //TODO: replace with display?
     }
     protected void writeJSON(String tax_json) {
         /*  Input: String json
