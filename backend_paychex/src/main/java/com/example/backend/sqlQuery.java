@@ -1,3 +1,5 @@
+package com.example.backend;
+
 import java.sql.*;
 import java.util.ArrayList;
 
@@ -16,7 +18,7 @@ public class sqlQuery {
 //        Map<String, Object>tax_info;
 //        ArrayList<Object> query_results;
 //        query_results= query_builder(con, query);
-//        tax_info = toJSON.map_builder((ResultSet) query_results.get(0), (int) query_results.get(1),
+//        tax_info = com.example.backend.toJSON.map_builder((ResultSet) query_results.get(0), (int) query_results.get(1),
 //                (ResultSetMetaData) query_results.get(2));
 //        return tax_info;
 //    }
@@ -31,7 +33,7 @@ public class sqlQuery {
 //        Map <String, Object> tax_rate_info;
 //        ArrayList<Object> query_results;
 //        query_results= query_builder(con, tax_rate_query);
-//        tax_rate_info = toJSON.map_builder((ResultSet) query_results.get(0), (int) query_results.get(1),
+//        tax_rate_info = com.example.backend.toJSON.map_builder((ResultSet) query_results.get(0), (int) query_results.get(1),
 //                (ResultSetMetaData) query_results.get(2));
 //        return tax_rate_info;
 //    }
@@ -46,7 +48,7 @@ public class sqlQuery {
 //        Map <String, Object> location_info;
 //        ArrayList<Object> query_results;
 //        query_results= query_builder(con, location_query);
-//        location_info = toJSON.map_builder((ResultSet) query_results.get(0), (int) query_results.get(1),
+//        location_info = com.example.backend.toJSON.map_builder((ResultSet) query_results.get(0), (int) query_results.get(1),
 //                (ResultSetMetaData) query_results.get(2));
 //        return location_info;
 //    }

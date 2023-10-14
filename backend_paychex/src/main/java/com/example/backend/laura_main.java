@@ -1,3 +1,5 @@
+package com.example.backend;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -29,12 +31,12 @@ public class laura_main {
                                                                  // Here for testing purposes. Move to SQL query class
             Connection con = DriverManager.getConnection(url, user, password);//connects to database
 
-//            tax_map = sqlQuery.tax(con);
+//            tax_map = com.example.backend.sqlQuery.tax(con);
 //            tax_id = Integer.valueOf((String) tax_map.get("TAX_ID")); //gets tax_ID from tax map
 //            location_id = Integer.valueOf((String) tax_map.get("TAX_LOCATION_ID")); //gets location_id from location map
-//            tax_rate_map = sqlQuery.tax_rate(con, tax_id);
-//            location_map = sqlQuery.location(con, location_id);
-//            toJSON.toJSONWithGSON(tax_map, tax_rate_map, location_map);
+//            tax_rate_map = com.example.backend.sqlQuery.tax_rate(con, tax_id);
+//            location_map = com.example.backend.sqlQuery.location(con, location_id);
+//            com.example.backend.toJSON.toJSONWithGSON(tax_map, tax_rate_map, location_map);
             Map<String, Object>tax_info;
             ArrayList<Object> query_results;
             System.out.println("Here");
