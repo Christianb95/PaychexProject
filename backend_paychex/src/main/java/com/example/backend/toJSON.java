@@ -9,7 +9,7 @@ import java.io.*;
 import java.sql.*;
 import java.util.*;
 import java.lang.*;
-/*TODO: store SQL results, convert to format to nest easily?, Refactor to make more object oriented.
+/*TODO: store SQL results, convert to format to nest easily?, Refactor to Service and Class? Don't like how its written now
  */
 public class toJSON {
     @Getter
