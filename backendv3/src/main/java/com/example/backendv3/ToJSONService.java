@@ -20,7 +20,7 @@ import static com.example.backendv3.SQLQuery.queryInfo;
 @NoArgsConstructor
 @Service
 public class ToJSONService {
-    private String jsonStr;
+    protected static String jsonStr;
     private Map <String, Object> resultMap;
 
     protected void getQueryResults(ArrayList<Object>queryResults){
