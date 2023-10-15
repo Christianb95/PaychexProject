@@ -3,9 +3,12 @@ package com.example.backendv3;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.sql.*;
 import java.util.ArrayList;
+
+import static com.example.backendv3.ToJSONService.*;
 
 @Data
 @AllArgsConstructor
@@ -13,6 +16,7 @@ import java.util.ArrayList;
 public class SQLQuery {
     private String query;
     protected static ArrayList<Object> queryInfo;
+    private static ToJSONService toJSONService;
     protected static void queryBuilder(String sqlQuery) throws SQLException{
         /*  Input: Sanitized string query
             Output: ArrayList of query information
@@ -25,6 +29,8 @@ public class SQLQuery {
         queryInfo.add(rs);
         queryInfo.add(column_count);
         queryInfo.add(metaData);
+        toJSONService.getQueryResults(queryInfo);
     }
+
 }
 
