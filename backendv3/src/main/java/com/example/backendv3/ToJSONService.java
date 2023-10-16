@@ -5,6 +5,7 @@ import com.google.gson.GsonBuilder;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.*;
@@ -24,23 +25,27 @@ public class ToJSONService {
     private Map <String, Object> resultMap;
 
     protected void getQueryResults(ArrayList<Object>queryResults){
+        /*  Input: queryResults from SQLQuery class
+            Output: None
+            Unpacks query ArrayList and assigns to variables to pass into setMap */
         ResultSet rs = (ResultSet) queryResults.get(0);
         int columnCount = (int) queryResults.get(1);
         ResultSetMetaData metaData = (ResultSetMetaData) queryResults.get(2);
         setMap(rs, columnCount, metaData);
     }
+
     protected void setMap(ResultSet rs, int columnCount, ResultSetMetaData metaData) {
         /*  Input: ResultSet contains results from query, int num of columns for table, ResultsSetMetaData
             Output: LinkedHash Map <String, Object>
             Constructs linked hashmap from result set values and column names from result set metadata*/
         Map<String, Object> map = new LinkedHashMap<>();
-        String col_name;
+        String colName;
         try{
             while (rs.next()) { //iterates over result set
-                for (int column_ind = 1; column_ind <= columnCount; column_ind++) {
-                    col_name = metaData.getColumnName(column_ind); //gets column name
-                    Object object = rs.getObject(column_ind); //gets cell value
-                    resultMap.put(col_name, object.toString()); //adds column name and value to linked hash map as key:value pair
+                for (int columnInd = 1; columnInd <= columnCount; columnInd++) {
+                    colName = metaData.getColumnName(columnInd); //gets column name
+                    Object object = rs.getObject(columnInd); //gets cell value
+                    resultMap.put(colName, object.toString()); //adds column name and value to linked hash map as key:value pair
                 }
             }
         }

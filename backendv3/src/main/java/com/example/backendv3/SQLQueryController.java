@@ -3,8 +3,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.sql.SQLException;
-
-import static com.example.backendv3.SQLQuery.queryBuilder;
 import static com.example.backendv3.SQLtoJSONSecurity.isSafeQuery;
 
 //Receives query from frontend, checks query for potential injections, sends query to query builder
@@ -23,12 +21,11 @@ public class SQLQueryController {
         boolean isSafe = isSafeQuery(query);
         if(isSafe){
             try {
-                queryBuilder(query);
-            }catch (SQLException e){
+                sqlQuery.queryBuilder(query);
+            } catch(SQLException e){
                 e.printStackTrace();
             }
-        }
-        else{
+        } else{
             String message = "Query not accepted";
             throw new SQLtoJSONException.NotSafeQuery(message);
         }
