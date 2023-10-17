@@ -14,7 +14,6 @@ import java.sql.SQLException;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Configuration
 public class ConnectToDB {
     /* DTO temporarily stores username, password, and databaseURL to form and close database connection.
       Stores connection */
@@ -22,7 +21,6 @@ public class ConnectToDB {
     private String password;
     private String databaseURL;
 
-    @Bean
     protected Connection createConnection() throws ClassNotFoundException, SQLException{ //TODO change to logger?
         /*  Input: None, uses values above
             Output: None
