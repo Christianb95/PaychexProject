@@ -20,7 +20,6 @@ public class SQLQuery {
     protected static ArrayList<Object> queryInfo;
     @Autowired
     private ToJSONService toJSONService;
-    @Autowired
     private Connection dbConnection;
     protected void queryBuilder(String safeQuery) throws SQLException{
         /*  Input: Sanitized string query
