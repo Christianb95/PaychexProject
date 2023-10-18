@@ -17,6 +17,7 @@ public class SQLQuery {
     private String query;
     protected static ArrayList<Object> queryInfo;
     @Autowired
+
     private ToJSONService toJSONService;
     private Connection dbConnection;
     protected void queryBuilder(String safeQuery) throws SQLException{
