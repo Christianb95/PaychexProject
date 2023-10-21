@@ -5,7 +5,7 @@
   align-items: center;
   justify-content: center;
 }
-.login-form-container, .login-form{
+.login-form-container, .login-form, .query-form-container, .query-form{
   display: flex;
   flex-direction: column;
 }

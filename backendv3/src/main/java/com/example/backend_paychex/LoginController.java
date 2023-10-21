@@ -7,7 +7,7 @@ import java.sql.SQLException;
 
 //RestAPI receives login info from frontend in RequestBody
 @RestController
-@CrossOrigin
+@CrossOrigin(origins = "*")
 @RequestMapping("/api/v3")
 public class LoginController {
 

@@ -1,28 +1,28 @@
 import React, {useState} from "react";
-import {computeHeadingLevel} from "@testing-library/react";
 import {toast} from "react-toastify";
-import api from "../api/axiosConfig"
+import api from "../../api/axiosConfig"
 
 const Login = (content, options) => {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [dbURL, setDBURL] = useState("");
-    const notify = (message)=>{
-        toast(message, {position: toast.POSITION.TOP_CENTER, autoClose: false, type: "warning"});
+    const notify = (message, type)=>{
+        toast(message, {position: toast.POSITION.TOP_CENTER, autoClose: false, type: type});
     }
     const validate=()=>{
+        //checks if username, password, and dbURL have been entered. Returns pop-up notification if empty or null
         let result = true;
         if (username==="" || username===null){
             result=false;
-            notify("Please enter a username");
+            notify("Please enter a username", "warning");
         }
         if (password==="" || password===null) {
             result = false;
-            notify("Please enter a password");
+            notify("Please enter a password", "warning");
         }
         if (dbURL==="" || dbURL===null) {
             result = false;
-            notify("Please enter the Database URL");
+            notify("Please enter the Database URL", "warning");
         }
         return result
     }
@@ -31,14 +31,14 @@ const Login = (content, options) => {
         e.preventDefault();
         if(validate()){
             try{
-                console.log("proceed");
                 const response = await api.post("/api/v3/login", {username:username, password:password, databaseURL:dbURL})
+                notify("Log in to database successful!", "success")
             }catch (error){
-                console.error(error.response.data)
+                notify(error.response.data, "warning")
             }
         }
     }
-    //TODO: rearrange if necessary to mimic backend setup
+
     return (
         <div className="login-form-container">
             <h2> Login </h2>

@@ -1,4 +1,5 @@
 package com.example.backend_paychex;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -8,7 +9,7 @@ import static com.example.backend_paychex.SQLtoJSONSecurity.isSafeQuery;
 //Receives query from frontend, checks query for potential injections, sends query to query builder
 
 @RestController
-@CrossOrigin
+@CrossOrigin(origins = "*")
 @RequestMapping("/api/v3")
 public class SQLQueryController {
     @PostMapping ("/query")
@@ -18,18 +19,20 @@ public class SQLQueryController {
             Calls static methods isSafeQuery from SQLtoJSONSecurity and queryBuilder from SQLQuery.
         */
         String query = sqlQuery.getQuery();
+        System.out.println(query);
         boolean isSafe = isSafeQuery(query);
         if(isSafe){
             try {
                 sqlQuery.queryBuilder(query);
+                return ResponseEntity.ok("Query Successful");
             } catch(SQLException e){
                 e.printStackTrace();
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Query failed: " + e.getMessage());
             }
         } else{
             String message = "Query not accepted";
             throw new SQLtoJSONException.NotSafeQuery(message);
         }
-        return ResponseEntity.ok("Query Successful");
     }
 
 }
