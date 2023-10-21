@@ -20,6 +20,7 @@ public class ConnectToDB {
     private String username;
     private String password;
     private String databaseURL;
+    protected Connection con;
 
     protected Connection createConnection() throws ClassNotFoundException, SQLException{ //TODO change to logger?
         /*  Input: None, uses values above
@@ -27,7 +28,14 @@ public class ConnectToDB {
             Creates database connection with username, password, and database url
             */
             Class.forName("oracle.jdbc.driver.OracleDriver"); //Driver information.
-            return DriverManager.getConnection(databaseURL, username, password); //manually creates database connection
+            System.out.println(username);
+            System.out.println(databaseURL);
+            this.con = DriverManager.getConnection(databaseURL, username, password);
+            printCon();
+            return con; //manually creates database connection
+    }
+    public void printCon(){
+        System.out.println(this.con);
     }
     public static void closeConnection() throws SQLException{ //change to shutdown hook?
         /*  Input: None
