@@ -19,19 +19,18 @@ public class SQLQueryController {
             Calls static methods isSafeQuery from SQLtoJSONSecurity and queryBuilder from SQLQuery.
         */
         String query = sqlQuery.getQuery();
-        System.out.println(query);
-        boolean isSafe = isSafeQuery(query);
-        if(isSafe){
-            try {
+        try {
+            boolean isSafe = isSafeQuery(query);
+            if(isSafe) {
                 sqlQuery.queryBuilder(query);
                 return ResponseEntity.ok("Query Successful");
-            } catch(SQLException e){
-                e.printStackTrace();
-                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Query failed: " + e.getMessage());
+            } else {
+                String message = "Query contains prohibited actions";
+                throw new SQLtoJSONException.NotSafeQuery(message);
             }
-        } else{
-            String message = "Query not accepted";
-            throw new SQLtoJSONException.NotSafeQuery(message);
+        } catch(Exception e){
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Query failed: " + e.getMessage());
         }
     }
 

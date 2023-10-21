@@ -8,12 +8,16 @@ const QueryForm = ()=>{
         toast(message, {position: toast.POSITION.TOP_CENTER, autoClose: false, type: type});
     }
     const validate = ()=>{
+        let result = true
         console.log(sqlQuery)
         if(sqlQuery===""||sqlQuery===null){
             notify("Query can not be empty", "warning")
+            result = false;
         }
+        return result
     }
     const handleSubmit = async (e) =>{
+        console.log("Here")
         e.preventDefault();
         if(validate()){
             try{
