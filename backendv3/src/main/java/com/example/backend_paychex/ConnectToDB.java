@@ -31,11 +31,7 @@ public class ConnectToDB {
             System.out.println(username);
             System.out.println(databaseURL);
             this.con = DriverManager.getConnection(databaseURL, username, password);
-            printCon();
             return con; //manually creates database connection
-    }
-    public void printCon(){
-        System.out.println(this.con);
     }
     public static void closeConnection() throws SQLException{ //change to shutdown hook?
         /*  Input: None
