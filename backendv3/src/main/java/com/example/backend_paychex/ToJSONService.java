@@ -20,7 +20,7 @@ import java.lang.*;
 @Service
 public class ToJSONService {
     protected static String jsonStr;
-    private Map <String, Object> resultMap;
+    private Map <String, Object> resultMap = new LinkedHashMap<>();
 
     protected void getQueryResults(ArrayList<Object>queryResults){
         /*  Input: queryResults from SQLQuery class
@@ -30,13 +30,13 @@ public class ToJSONService {
         int columnCount = (int) queryResults.get(1);
         ResultSetMetaData metaData = (ResultSetMetaData) queryResults.get(2);
         setMap(rs, columnCount, metaData);
+        System.out.println(resultMap);
     }
 
     protected void setMap(ResultSet rs, int columnCount, ResultSetMetaData metaData) {
         /*  Input: ResultSet contains results from query, int num of columns for table, ResultsSetMetaData
             Output: LinkedHash Map <String, Object>
             Constructs linked hashmap from result set values and column names from result set metadata*/
-        Map<String, Object> map = new LinkedHashMap<>();
         String colName;
         try{
             while (rs.next()) { //iterates over result set
@@ -50,6 +50,7 @@ public class ToJSONService {
         catch (SQLException e){
             e.printStackTrace();
         }
+        toJSONWithGSON();
     }
 //TODO: Make more flexible. Handle complex queries.
     protected void toJSONWithGSON(){
@@ -58,14 +59,13 @@ public class ToJSONService {
             Nests hash maps and converts to JSON string. Passes JSON string to writeJSON
         */
         Gson gson = new GsonBuilder().setPrettyPrinting().create(); //uses GSON library to format JSON string
-        Boolean button = true; //TODO: replace with button press
-        //TODO Test to see if private resultMap causes issue with conversion?
         jsonStr = gson.toJson(resultMap); //converts hash tax_map to JSON string using GSON library
     }
     protected void writeJSON() {
         /*  Input: String json
             Output: None
             Writes JSON string to JSON file */
+        System.out.println("Here");
         try {
             File file = new File("output.json"); //creates file and saves in current directory
             FileWriter file_writer = new FileWriter(file);

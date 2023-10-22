@@ -2,12 +2,12 @@ import React, {useState} from "react";
 import {toast} from "react-toastify";
 import api from "../../api/axiosConfig"
 
-const Login = (content, options) => {
+const Login = (props) => {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [dbURL, setDBURL] = useState("");
     const notify = (message, type)=>{
-        toast(message, {position: toast.POSITION.TOP_CENTER, autoClose: false, type: type});
+        toast(message, {position: toast.POSITION.TOP_CENTER, type: type});
     }
     const validate=()=>{
         //checks if username, password, and dbURL have been entered. Returns pop-up notification if empty or null
@@ -33,6 +33,7 @@ const Login = (content, options) => {
             try{
                 const response = await api.post("/api/v3/login", {username:username, password:password, databaseURL:dbURL})
                 notify("Log in to database successful!", "success")
+                props.onPageSwitch(); //does not need argument passed in due to ternary statement, see App.js
             }catch (error){
                 notify(error.response.data, "warning")
             }

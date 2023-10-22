@@ -6,11 +6,15 @@ import 'react-toastify/dist/ReactToastify.css';
 import {ToastContainer} from "react-toastify";
 
 function App() {
-    // const [currentForm, setCurrentForm] = useState('login')
+    const [currentPage, setCurrentPage] = useState('login');
+    const togglePage = (pageName) =>{
+        setCurrentPage(pageName);
+    }
+
   return (
-    <div className="App">
-        {/*<Login/>*/}
-        <QueryForm/>
+    <div className="App">{
+        currentPage === "login" ? <Login onPageSwitch = {togglePage}/> : <QueryForm onPageSwitch = {togglePage}/>
+    }
         <ToastContainer/>
     </div>
   );
