@@ -4,7 +4,8 @@ import api from "../../api/axiosConfig";
 
 const QueryForm = (props)=>{
     const [sqlQuery, setQuery] = useState("");
-    const [responseInfo, setResponseInfo] = useState(null);
+    const [responseInfo, setResponseInfo] = useState();
+    const [isButtonDisabled, setIsButtonDisabled] = useState(true);
 
     const notify = (message, type)=>{
         toast(message, {position: toast.POSITION.TOP_CENTER, type: type});
@@ -29,6 +30,7 @@ const QueryForm = (props)=>{
                     const queryInfo = get_response.data;
                     console.log(queryInfo);
                     setResponseInfo(queryInfo);
+                    setIsButtonDisabled(false);
                 }
             }catch (error){
                 notify(error.response.data, "warning");
@@ -36,23 +38,23 @@ const QueryForm = (props)=>{
         }
     }
 
+    const handleEnableButton = () =>{
+        this.setState({isButtonDisabled: false})
+    }
     const exportJSON = async (e) =>{
         e.preventDefault();
+        console.log("test if not disabled")
         const response = await api.post("/api/v3/exportJSON", {query:sqlQuery});
         if (response!==null){
+            console.log(response.data)
             notify("Output file successfully", "success");
         }
     }
 
     const exitToLogin = async (e)=>{
         e.preventDefault();
-        try{
-            const response = await api.post("/api/v3/logout")
-            notify("Exited and closed connection to the database", "success");
-            props.onPageSwitch("login"); //passes in login, or ternary statement remains false
-        }catch(error){
-            notify(error.response.data, "warning")
-        }
+        notify("Exited application", "success");
+        props.onPageSwitch("login"); //passes in login, or ternary statement remains false
     }
 
     return(
@@ -64,13 +66,13 @@ const QueryForm = (props)=>{
                     <input value={sqlQuery} onChange={e=>setQuery(e.target.value)}
                            type="sqlQuery" placeholder='enter query' id="sqlQuery" name="sqlQuery"/>
                     <button onClick={querySubmit} type="submit">Submit Query</button>
-                    <button onClick={exportJSON} type="submit">Export JSON</button>
+                    <button disabled={isButtonDisabled} onClick={exportJSON} type="submit">Export JSON</button>
                     <button onClick={exitToLogin} type="submit">Exit To Login</button>
                 </form>
             </div>
             <div className="response-container">
                 <h2>Response</h2>
-                <pre>{JSON.stringify(responseInfo)}</pre> {/*TODO displays null when no information is there. Figure out how to change?*/}
+                <pre>{JSON.stringify(responseInfo)}</pre>
             </div>
         </div>
     )

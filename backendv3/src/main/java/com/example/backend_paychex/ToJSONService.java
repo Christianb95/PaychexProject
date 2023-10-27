@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import javax.swing.*;
 import java.io.*;
 import java.sql.*;
 import java.util.*;
@@ -65,7 +66,6 @@ public class ToJSONService {
         /*  Input: String json
             Output: None
             Writes JSON string to JSON file */
-        System.out.println("Here");
         try {
             File file = new File("output.json"); //creates file and saves in current directory
             FileWriter file_writer = new FileWriter(file);

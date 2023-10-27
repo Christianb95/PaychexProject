@@ -22,6 +22,7 @@ public class SQLQueryController {
         try {
             boolean isSafe = isSafeQuery(query);
             if(isSafe) {
+                sqlQuery.createConnection(); //creates database connection stored in sqlQuery
                 sqlQuery.queryBuilder(query);
                 return ResponseEntity.ok("Query Successful");
             } else {

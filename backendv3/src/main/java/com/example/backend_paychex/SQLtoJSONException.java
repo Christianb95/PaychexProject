@@ -10,4 +10,9 @@ public class SQLtoJSONException {
         }
     }
 
+    public static class NoQueryEntered extends Exception {
+        public NoQueryEntered(String message) {
+            super(message);
+        }
+    }
 }
