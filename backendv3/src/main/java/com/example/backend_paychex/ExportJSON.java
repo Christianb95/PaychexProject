@@ -18,8 +18,7 @@ public class ExportJSON {
     @PostMapping("/exportJSON")
     public ResponseEntity<String>exportJSON(){
         System.out.println("In exportJSON controller");
-        toJSONService.writeJSON();
-        return new ResponseEntity<String>("File saved", HttpStatus.OK);
+        return new ResponseEntity<String>(ToJSONService.jsonStr, HttpStatus.OK);
     }
 
 }

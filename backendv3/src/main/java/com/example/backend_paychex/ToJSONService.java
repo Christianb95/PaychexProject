@@ -62,18 +62,19 @@ public class ToJSONService {
         Gson gson = new GsonBuilder().setPrettyPrinting().create(); //uses GSON library to format JSON string
         jsonStr = gson.toJson(resultMap); //converts hash tax_map to JSON string using GSON library
     }
-    protected void writeJSON() {
-        /*  Input: String json
-            Output: None
-            Writes JSON string to JSON file */
-        try {
-            File file = new File("output.json"); //creates file and saves in current directory
-            FileWriter file_writer = new FileWriter(file);
-            file_writer.write(jsonStr); //writes json string.
-            file_writer.flush();
-            file_writer.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
+//    protected void writeJSON() {
+//        /*  Input: String json
+//            Output: None
+//            Writes JSON string to JSON file */
+////        JFileChooser chooser = new JFileChooser();
+//        try {
+//            File file = new File("output.json"); //creates file and saves in current directory
+//            FileWriter file_writer = new FileWriter(file);
+//            file_writer.write(jsonStr); //writes json string.
+//            file_writer.flush();
+//            file_writer.close();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//    }
 }
