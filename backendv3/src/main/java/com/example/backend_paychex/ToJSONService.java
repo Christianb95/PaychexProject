@@ -42,15 +42,12 @@ public class ToJSONService {
                     builder.put(colName, object);
 
                 }
-                System.out.println(builder);
                 results.add(builder);
-                System.out.println(results);
             }
         }
         catch (SQLException e) {
             e.printStackTrace();
         }
-        System.out.println(results);
         toJSONWithGSON();
     }
 //TODO: Make more flexible. Handle complex queries.
@@ -62,19 +59,4 @@ public class ToJSONService {
         Gson gson = new GsonBuilder().setPrettyPrinting().create(); //uses GSON library to format JSON string
         jsonStr = gson.toJson(results); //converts hash tax_map to JSON string using GSON library
     }
-//    protected void writeJSON() {
-//        /*  Input: String json
-//            Output: None
-//            Writes JSON string to JSON file */
-////        JFileChooser chooser = new JFileChooser();
-//        try {
-//            File file = new File("output.json"); //creates file and saves in current directory
-//            FileWriter file_writer = new FileWriter(file);
-//            file_writer.write(jsonStr); //writes json string.
-//            file_writer.flush();
-//            file_writer.close();
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//    }
 }

@@ -42,7 +42,6 @@ public class ConnectToDB {
             SQLQuery.databaseURL = databaseURL;
         }
         con.close();
-        System.out.println(con.isValid(5));
 
     }
 }
