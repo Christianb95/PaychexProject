@@ -15,7 +15,6 @@ import java.util.ArrayList;
 @Component
 public class SQLQuery{
     private String query;
-    protected static ArrayList<Object> queryInfo = new ArrayList<Object>();
     @Autowired
     private ToJSONService toJSONService = new ToJSONService();
     protected static Connection con;
@@ -38,31 +37,21 @@ public class SQLQuery{
     }
     protected void queryBuilder(String safeQuery) throws SQLException, ClassNotFoundException{
         /*  Input: Sanitized string query
-            Output: ArrayList of query information
+            Output: None
             builds query as prepared statement, and passes query info to create JSON string */
 
-        queryInfo.clear(); //clears linked hashmap for every new query
-
-        //re-establishes connection for every new query
-
-        //prepares SQl query, executes query, and gets result set, metadata etc.
         PreparedStatement stmt = con.prepareStatement(safeQuery); //prepares query
         ResultSet rs = stmt.executeQuery(); //executes SQL query and returns result set
         ResultSetMetaData metaData = rs.getMetaData(); //gets metadata from result set to use as keys
-        int column_count = metaData.getColumnCount(); //gets column count from metadata for iteration
+        int columnCount = metaData.getColumnCount(); //gets column count from metadata for iteration
 
-        //adds resultset, metadata, and column number to array to process
-        queryInfo.add(rs);
-        queryInfo.add(column_count);
-        queryInfo.add(metaData);
-        toJSONService.getQueryResults(queryInfo); //calls conversion to JSON
+        toJSONService.getQueryResults(rs, columnCount, metaData); //calls conversion to JSON
 
         //closes out statements, sets, and connection
         stmt.clearParameters();
         rs.close();
         stmt.close();
         con.close();
-        System.out.println(con.isValid(5));
     }
 
 }
