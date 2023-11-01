@@ -3,16 +3,16 @@ package com.example.backend_paychex;
 import lombok.AllArgsConstructor;
 
 @AllArgsConstructor
-public class SQLtoJSONException {
+public class SQLtoJSONException extends Throwable {
     public static class NotSafeQuery extends Exception{
-        public NotSafeQuery(String message){
-            super(message);
+        public NotSafeQuery(){
+            super("Query invalid. Please rewrite the query and resubmit");
         }
     }
 
-    public static class NoQueryEntered extends Exception {
-        public NoQueryEntered(String message) {
-            super(message);
+    public static class NoResultsReturned extends Exception {
+        public NoResultsReturned() {
+            super("This query did not return any results");
         }
     }
 }

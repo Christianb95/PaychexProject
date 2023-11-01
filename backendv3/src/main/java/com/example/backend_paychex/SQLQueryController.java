@@ -4,6 +4,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.sql.SQLException;
+import java.sql.SQLIntegrityConstraintViolationException;
+
 import static com.example.backend_paychex.SQLtoJSONSecurity.isSafeQuery;
 
 //Receives query from frontend, checks query for potential injections, sends query to query builder
@@ -13,7 +15,7 @@ import static com.example.backend_paychex.SQLtoJSONSecurity.isSafeQuery;
 @RequestMapping("/api/v3")
 public class SQLQueryController {
     @PostMapping ("/query")
-    public ResponseEntity<String> query(@RequestBody SQLQuery sqlQuery) throws SQLtoJSONException.NotSafeQuery {
+    public ResponseEntity<String> query(@RequestBody SQLQuery sqlQuery) {
         /*  Input: RequestBody mapped to DTO SQLQuery
             Output: ResponseEntity for status
             Calls static methods isSafeQuery from SQLtoJSONSecurity and queryBuilder from SQLQuery.
@@ -27,11 +29,13 @@ public class SQLQueryController {
                 return ResponseEntity.ok("Query Successful");
             } else {
                 String message = "Query contains prohibited actions";
-                throw new SQLtoJSONException.NotSafeQuery(message);
+                throw new SQLtoJSONException.NotSafeQuery();
             }
-        } catch(Exception e){
-            e.printStackTrace();
+        } catch(SQLtoJSONException.NotSafeQuery e){
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Invalid Query. Please re-enter and resubmit");
+        } catch (SQLException | ClassNotFoundException e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Query failed: " + e.getMessage());
+
         }
     }
 
