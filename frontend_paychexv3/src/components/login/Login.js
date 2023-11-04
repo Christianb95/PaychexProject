@@ -50,7 +50,7 @@ const Login = (props) => {
                     width: "500px",
                     height: "auto",
                 }}
-            /> {/* Insert the image here */}
+            />
             <h2> Login </h2>
             <form className="login-form" onSubmit={handleSubmit}>
                 <label htmlFor="username">username</label>
