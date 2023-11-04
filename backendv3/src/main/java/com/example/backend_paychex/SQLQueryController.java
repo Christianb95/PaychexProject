@@ -2,10 +2,7 @@ package com.example.backend_paychex;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import java.sql.SQLException;
-import java.sql.SQLIntegrityConstraintViolationException;
-
 import static com.example.backend_paychex.SQLtoJSONSecurity.isSafeQuery;
 
 //Receives query from frontend, checks query for potential injections, sends query to query builder

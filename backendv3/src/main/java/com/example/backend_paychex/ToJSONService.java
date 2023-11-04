@@ -1,18 +1,10 @@
 package com.example.backend_paychex;
-
-import com.fasterxml.jackson.core.JsonFactoryBuilder;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.apache.tomcat.util.json.JSONFilter;
-import org.json.JSONObject;
 import org.springframework.stereotype.Service;
-import javax.swing.*;
-import java.io.*;
 import java.sql.*;
 import java.util.*;
 import java.lang.*;

@@ -3,7 +3,6 @@ package com.example.backend_paychex;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.ArrayList;
 
 public class SQLtoJSONSecurity {
     public static boolean isSafeQuery(String sqlQuery){
