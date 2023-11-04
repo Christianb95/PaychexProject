@@ -34,6 +34,7 @@ public class ConnectToDB {
             Output: None
             Tests database connection with username, password, and database url, then closes connection
             */
+        System.out.println(username);
         Class.forName("oracle.jdbc.driver.OracleDriver"); //Driver information.
         con = DriverManager.getConnection(databaseURL, username, password);
         if (con.isValid(5)){
