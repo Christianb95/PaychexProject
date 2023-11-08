@@ -47,8 +47,11 @@ const Login = (props) => {
                 alt="Logo"
                 style={{
                     display: "inline-block",
-                    width: "500px",
+                    width: "200px",
                     height: "auto",
+                    position: "absolute",
+                    top: "0",
+                    right: "0",
                 }}
             />
             <h2> Login </h2>

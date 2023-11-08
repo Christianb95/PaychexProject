@@ -7,7 +7,7 @@ const QueryForm = (props)=>{
     const [sqlQuery, setQuery] = useState("");
     const [responseInfo, setResponseInfo] = useState();
     const [isButtonDisabled, setIsButtonDisabled] = useState(true);
-    const [showResponse, setShowResponse] = useState(false);
+    const [showResponse, setShowResponse] = useState(true);
 
     const notify = (message, type)=>{
         toast(message, {position: toast.POSITION.TOP_CENTER, type: type});

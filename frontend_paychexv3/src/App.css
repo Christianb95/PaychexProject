@@ -1,8 +1,8 @@
 .App {
   text-align: center;
   display: flex;
+  flex-direction: column;
   min-height: 100vh;
-  align-items: center;
   justify-content: center;
 }
 .login-form-container, .login-form{
@@ -21,6 +21,7 @@
   background-color: #f8f8f8; /* Optional background color for better visibility */
   overflow: auto; /* Allow scrolling if content exceeds container height */
   border-left: 1px solid #ccc; /* Optional border for separation */
+  word-wrap: break-word;
 }
 
 label{
