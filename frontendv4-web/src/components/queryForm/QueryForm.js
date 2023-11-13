@@ -1,12 +1,14 @@
 import React, {useState} from "react";
 import {toast} from "react-toastify";
 import api from "../../api/axiosConfig";
+import logoImage from "../../Assets/Paychex_logo.svg.png";
 
 const QueryForm = (props)=>{
     const [sqlQuery, setQuery] = useState("");
-    const [displayInfo, setDisplayInfo] = useState();
+    const [responseInfo, setResponseInfo] = useState();
     const [isButtonDisabled, setIsButtonDisabled] = useState(true);
     const [fileInfo, setFileInfo] = useState("")
+    const [showResponse, setShowResponse] = useState(true);
 
     const notify = (message, type)=>{
         toast(message, {position: toast.POSITION.TOP_CENTER, type: type});
@@ -29,8 +31,10 @@ const QueryForm = (props)=>{
                 const get_response = await api.get("/api/v3/display");
                 if(get_response!==null){
                     const queryInfo = get_response.data;
+                    console.log(JSON.stringify(queryInfo))
                     setFileInfo(JSON.stringify(queryInfo));
-                    setDisplayInfo(JSON.stringify(queryInfo.slice(0, 3)));
+                    setResponseInfo(queryInfo.slice(0, 3));
+                    setShowResponse(true);
                     setIsButtonDisabled(false);
                 }
             }catch (error){
@@ -70,8 +74,20 @@ const QueryForm = (props)=>{
     }
 
     return(
-        <div>
-            <div className="query-form-container">
+        <div style={{ display: "flex" }}>
+            <div className="query-form-container" style={{ flex: 1 }}>
+                <img
+                    src={logoImage}
+                    alt="Logo"
+                    style={{
+                        display: "inline-block",
+                        width: "200px",
+                        height: "auto",
+                        position: "absolute",
+                        top: "0",
+                        right: "0",
+                    }}
+                />
                 <h2> Enter Query</h2>
                 <form className="query-form">
                     <label htmlFor="sqlQuery">SQL Query</label>
@@ -82,10 +98,16 @@ const QueryForm = (props)=>{
                     <button onClick={exitToLogin} type="submit">Exit To Login</button>
                 </form>
             </div>
-            <div className="response-container">
-                <h2>Response</h2>
-                <pre>{JSON.stringify(displayInfo)}</pre>
-            </div>
+            {showResponse && (
+                <div className="response-form" style={{ flex: 1 }}>
+                    <h2>Response</h2>
+                    <div className="response-container" style={{ flex: 1 }}>
+                        <pre>
+                        {JSON.stringify(responseInfo, null, 2)}
+                        </pre>
+                    </div>
+                </div>
+            )}
         </div>
     )
 }
