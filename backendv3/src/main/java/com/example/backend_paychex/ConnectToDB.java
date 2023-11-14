@@ -1,11 +1,9 @@
 package com.example.backend_paychex;
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Service;
-
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -31,7 +29,7 @@ public class ConnectToDB {
             Tests database connection with username, password, and database url, then closes connection
             */
         Class.forName("oracle.jdbc.driver.OracleDriver"); //Driver information.
-        con = DriverManager.getConnection(databaseURL, username, password);
+        con = DriverManager.getConnection(databaseURL, username, Sec.decrypt(password));
         if (con.isValid(5)){
             SQLQuery.username = username;
             SQLQuery.password = password;
