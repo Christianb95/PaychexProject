@@ -33,7 +33,7 @@ const QueryForm = (props)=>{
                     const queryInfo = get_response.data;
                     console.log(JSON.stringify(queryInfo))
                     setFileInfo(JSON.stringify(queryInfo));
-                    setResponseInfo(queryInfo.slice(0, 3));
+                    setResponseInfo(queryInfo.slice(0, 5));
                     setShowResponse(true);
                     setIsButtonDisabled(false);
                 }

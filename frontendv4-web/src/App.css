@@ -23,6 +23,8 @@
   border-left: 1px solid #ccc; /* Optional border for separation */
   word-wrap: break-word;
   text-align: left;
+  /*text-indent: 50px;*/
+  padding-left: 250px;
 }
 
 label{

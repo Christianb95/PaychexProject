@@ -2,6 +2,7 @@ import React, {useState} from "react";
 import {toast} from "react-toastify";
 import api from "../../api/axiosConfig"
 import logoImage from "../../Assets/Paychex_logo.svg.png"; // Import your image file
+import "../../components/sec/Sec"
 const Login = (props) => {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
@@ -25,6 +26,24 @@ const Login = (props) => {
             notify("Please enter the Database URL", "warning");
         }
         return result
+    }
+
+    const encrypt = (data) => {
+        const shift = 3;
+        let encryptedData = '';
+
+        for (let i = 0; i < data.length; i++) {
+            let c = data.charAt(i);
+
+            if (c.match(/[a-z]/i)) {
+                const isUpperCase = c === c.toUpperCase();
+                const offset = isUpperCase ? 'A'.charCodeAt(0) : 'a'.charCodeAt(0);
+                encryptedData += String.fromCharCode((c.charCodeAt(0) - offset + shift) % 26 + offset);
+            } else {
+                encryptedData += c;
+            }
+        }
+        return encryptedData;
     }
 
     const handleSubmit = async (e) =>{
@@ -58,7 +77,7 @@ const Login = (props) => {
                 <label htmlFor="username">username</label>
                 <input value={username} onChange={e=>setUsername(e.target.value)} type="username" placeholder='username' id="username" name="username"/>
                 <label htmlFor="password">password</label>
-                <input value={password} onChange={e=>setPassword(e.target.value)} type="password" placeholder='**********' id="password" name="password"/>
+                <input value={password} onChange={e=>setPassword(encrypt(e.target.value))} type="password" placeholder='**********' id="password" name="password"/>
                 <label htmlFor="dbURL">Database URL</label>
                 <input value={dbURL} type="dbURL" onChange={e=>setDBURL(e.target.value)} placeholder='jdbc:oracle:thin:@<dbhost>:<dbport>:<sid>' id="dbURL" name="dbURL"/>
                 <button type="submit">Login</button>
