@@ -1,6 +1,6 @@
 package com.example.backend_paychex;
 
-public class Sec {
+public class PasswordSec {
     public static String decrypt(String encryptedData) {
 
         int shift = 3;

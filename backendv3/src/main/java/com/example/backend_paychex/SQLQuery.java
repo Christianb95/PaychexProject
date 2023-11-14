@@ -5,7 +5,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
 import java.sql.*;
 import java.util.ArrayList;
 
@@ -22,7 +21,7 @@ public class SQLQuery{
     protected static String password;
     protected static String databaseURL;
 
-    protected void createConnection() throws ClassNotFoundException, SQLException { //TODO change to logger?
+    protected void createConnection() throws ClassNotFoundException, SQLException {
         /*  Input: None, uses values above
             Output: None
             Creates database connection with username, password, and database url
