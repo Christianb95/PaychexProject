@@ -7,7 +7,6 @@ const QueryForm = (props)=>{
     const [sqlQuery, setQuery] = useState("");
     const [responseInfo, setResponseInfo] = useState();
     const [isButtonDisabled, setIsButtonDisabled] = useState(true);
-    const [fileInfo, setFileInfo] = useState("")
     const [showResponse, setShowResponse] = useState(true);
 
     const notify = (message, type)=>{
@@ -31,15 +30,12 @@ const QueryForm = (props)=>{
                 const get_response = await api.get("/api/v3/display");
                 if(get_response!==null){
                     const queryInfo = get_response.data;
-                    console.log(JSON.stringify(queryInfo))
-                    setFileInfo(JSON.stringify(queryInfo));
                     setResponseInfo(queryInfo.slice(0, 5));
                     setShowResponse(true);
                     setIsButtonDisabled(false);
                 }
             }catch (error){
-                console.error('Error downloading JSON file:', error);
-                // notify(error.response.data, "warning");
+                notify(error.response.data, "warning");
             }
         }
     }

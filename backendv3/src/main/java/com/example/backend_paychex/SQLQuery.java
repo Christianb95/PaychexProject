@@ -27,7 +27,7 @@ public class SQLQuery{
             Creates database connection with username, password, and database url
             */
         Class.forName("oracle.jdbc.driver.OracleDriver"); //Driver information.
-        con = DriverManager.getConnection(databaseURL, username, password);
+        con = DriverManager.getConnection(databaseURL, username, PasswordSec.decrypt(password));
     }
     protected void queryBuilder(String safeQuery) throws SQLException {
         /*  Input: Sanitized string query

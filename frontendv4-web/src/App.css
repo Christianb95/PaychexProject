@@ -20,11 +20,14 @@
   padding: 10px;
   background-color: #f8f8f8; /* Optional background color for better visibility */
   overflow: auto; /* Allow scrolling if content exceeds container height */
-  border-left: 1px solid #ccc; /* Optional border for separation */
+  border: 1px solid #ccc; /* Optional border for separation */
   word-wrap: break-word;
   text-align: left;
   /*text-indent: 50px;*/
-  padding-left: 250px;
+  /*padding-left: 250px;*/
+  margin-right: 50px;
+  margin-left: 50px;
+  height: 575px;
 }
 
 label{
