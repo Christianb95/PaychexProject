@@ -7,7 +7,7 @@ import java.sql.SQLException;
 
 //RestAPI receives login info from frontend in RequestBody
 @RestController
-@CrossOrigin
+@CrossOrigin(origins = "*")
 @RequestMapping("/api/v3")
 public class LoginController {
 
@@ -23,13 +23,6 @@ public class LoginController {
 
         } catch (SQLException | ClassNotFoundException e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Login failed: " + e.getMessage());
-
-        }finally{
-            try {
-                connectToDB.closeConnection();
-            } catch (SQLException e){
-
-            }
         }
     }
 }

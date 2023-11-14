@@ -1,0 +1,25 @@
+Insert into TAX_RATE
+   (TR_ID, TR_TAX_ID, TR_RATE_PERCENT)
+ Values
+   (30000, 2000003, 2.2);
+Insert into TAX_RATE
+   (TR_ID, TR_TAX_ID, TR_RATE_PERCENT)
+ Values
+   (30001, 2000004, 3.4);
+Insert into TAX_RATE
+   (TR_ID, TR_TAX_ID, TR_RATE_PERCENT)
+ Values
+   (30002, 2000005, 6.25);
+Insert into TAX_RATE
+   (TR_ID, TR_TAX_ID, TR_RATE_PERCENT)
+ Values
+   (30003, 2000006, 4.025);
+Insert into TAX_RATE
+   (TR_ID, TR_TAX_ID, TR_RATE_PERCENT)
+ Values
+   (30004, 2000007, 22);
+Insert into TAX_RATE
+   (TR_ID, TR_TAX_ID, TR_RATE_PERCENT)
+ Values
+   (30005, 2000008, 0.6);
+COMMIT

@@ -1,0 +1,44 @@
+[
+  {
+    "TAX_ID": 2000003,
+    "LOCATION_ID": 1000000,
+    "LOCATION_SHORT_NAME": "CA",
+    "TAX_SHORT_NAME": "CA IT",
+    "TR_RATE_PERCENT": 2.2
+  },
+  {
+    "TAX_ID": 2000004,
+    "LOCATION_ID": 1000000,
+    "LOCATION_SHORT_NAME": "CA",
+    "TAX_SHORT_NAME": "CA UI",
+    "TR_RATE_PERCENT": 3.4
+  },
+  {
+    "TAX_ID": 2000005,
+    "LOCATION_ID": 1000001,
+    "LOCATION_SHORT_NAME": "NY",
+    "TAX_SHORT_NAME": "NY IT",
+    "TR_RATE_PERCENT": 6.25
+  },
+  {
+    "TAX_ID": 2000006,
+    "LOCATION_ID": 1000001,
+    "LOCATION_SHORT_NAME": "NY",
+    "TAX_SHORT_NAME": "NY UI",
+    "TR_RATE_PERCENT": 4.025
+  },
+  {
+    "TAX_ID": 2000007,
+    "LOCATION_ID": 1000002,
+    "LOCATION_SHORT_NAME": "US",
+    "TAX_SHORT_NAME": "FED IT",
+    "TR_RATE_PERCENT": 22
+  },
+  {
+    "TAX_ID": 2000008,
+    "LOCATION_ID": 1000002,
+    "LOCATION_SHORT_NAME": "US",
+    "TAX_SHORT_NAME": "FED UI",
+    "TR_RATE_PERCENT": 0.6
+  }
+]

@@ -1,0 +1,49 @@
+.App {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  justify-content: center;
+}
+.login-form-container, .login-form{
+  display: flex;
+  flex-direction: column;
+}
+
+.query-form-container, .query-form{
+  display: flex;
+  flex-direction: column;
+}
+
+.response-container {
+  flex: 1;
+  padding: 10px;
+  background-color: #f8f8f8; /* Optional background color for better visibility */
+  overflow: auto; /* Allow scrolling if content exceeds container height */
+  border-left: 1px solid #ccc; /* Optional border for separation */
+  word-wrap: break-word;
+  text-align: left;
+  /*text-indent: 50px;*/
+  padding-left: 250px;
+}
+
+label{
+  text-align: center;
+  padding: 0.25rem 0;
+}
+input{
+  margin: 0.5rem auto;
+  max-width: 250px;
+  width: 100%;
+}
+
+button{
+  border: none;
+  padding: 20px;
+  border-radius: 10px;
+  cursor: pointer;
+  margin: 5px auto;
+  max-width: 250px;
+  width: 100%;
+  background-color: #2F85CB
+}

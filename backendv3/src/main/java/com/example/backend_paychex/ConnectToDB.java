@@ -1,11 +1,9 @@
 package com.example.backend_paychex;
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-
+import org.springframework.stereotype.Service;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -14,25 +12,30 @@ import java.sql.SQLException;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Getter
+@Service
 public class ConnectToDB {
     /* DTO temporarily stores username, password, and databaseURL to form and close database connection.
       Stores connection */
     private String username;
     private String password;
     private String databaseURL;
+    private Connection con;
 
-    protected Connection createConnection() throws ClassNotFoundException, SQLException{ //TODO change to logger?
+
+    protected void createConnection() throws ClassNotFoundException, SQLException{ //TODO change to logger?
         /*  Input: None, uses values above
             Output: None
-            Creates database connection with username, password, and database url
+            Tests database connection with username, password, and database url, then closes connection
             */
-            Class.forName("oracle.jdbc.driver.OracleDriver"); //Driver information.
-            return DriverManager.getConnection(databaseURL, username, password); //manually creates database connection
-    }
-    public static void closeConnection() throws SQLException{ //change to shutdown hook?
-        /*  Input: None
-            Output: None
-            Closes connection when program is signed out
-          */
+        Class.forName("oracle.jdbc.driver.OracleDriver"); //Driver information.
+        con = DriverManager.getConnection(databaseURL, username, PasswordSec.decrypt(password));
+        if (con.isValid(5)){
+            SQLQuery.username = username;
+            SQLQuery.password = password;
+            SQLQuery.databaseURL = databaseURL;
+        }
+        con.close();
+
     }
 }
