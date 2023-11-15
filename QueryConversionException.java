@@ -1,7 +1,7 @@
-public class QueryToJsonError extends Exception {
+public class QueryConversionException extends Exception {
     private String errorMessage;
 
-    public QueryToJsonError(String errorMessage) {
+    public QueryConversionException(String errorMessage) {
         this.errorMessage = errorMessage;
     }
 
@@ -15,15 +15,15 @@ public class QueryToJsonError extends Exception {
             String query = "SELECT * FROM my_table";
             String result = convertQueryToJson(query);
             System.out.println("JSON result: " + result);
-        } catch (QueryToJsonError e) {
+        } catch (QueryConversionException e) {
             System.out.println("An error occurred while converting query to JSON: " + e.getMessage());
         }
     }
 
-    public static String convertQueryToJson(String query) throws QueryToJsonError {
+    public static String convertQueryToJson(String query) throws QueryConversionException {
 
         if (query.isEmpty()) {
-            throw new QueryToJsonError("Empty query");
+            throw new QueryConversionException("Empty query");
         }
 
         try {
@@ -34,7 +34,7 @@ public class QueryToJsonError extends Exception {
             return jsonResult;
 
         } catch (SQLException e) {
-            throw new QueryToJsonError("Error executing the SQL query: " + e.getMessage());
+            throw new QueryConversionException("Error executing the SQL query: " + e.getMessage());
         }
     }
 
@@ -51,3 +51,4 @@ public class QueryToJsonError extends Exception {
         return "JSON result";
     }
 }
+ 
