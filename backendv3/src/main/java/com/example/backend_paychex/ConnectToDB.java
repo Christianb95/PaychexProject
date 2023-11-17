@@ -15,7 +15,7 @@ import java.sql.SQLException;
 @Getter
 @Service
 public class ConnectToDB {
-    /* DTO temporarily stores username, password, and databaseURL to form and close database connection.
+    /* DTO temporarily stores username, encrypted password, and databaseURL to form and close database connection.
       Stores connection */
     private String username;
     private String password;
@@ -29,7 +29,6 @@ public class ConnectToDB {
             Tests database connection with username, password, and database url, then closes connection
             */
         Class.forName("oracle.jdbc.driver.OracleDriver"); //Driver information.
-        System.out.println(PasswordSec.decrypt(password));
         con = DriverManager.getConnection(databaseURL, username, PasswordSec.decrypt(password));
         if (con.isValid(5)){
             SQLQuery.username = username;

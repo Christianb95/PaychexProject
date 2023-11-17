@@ -27,7 +27,7 @@
   /*padding-left: 250px;*/
   margin-right: 50px;
   margin-left: 50px;
-  height: 575px;
+  height: 610px;
 }
 
 label{
@@ -37,6 +37,15 @@ label{
 input{
   margin: 0.5rem auto;
   max-width: 250px;
+  width: 100%;
+}
+
+textarea{
+  margin: 0.5rem auto 20px;
+  min-width: 500px;
+  min-height: 20px;
+  max-width: 500px;
+  max-height: 300px;
   width: 100%;
 }
 

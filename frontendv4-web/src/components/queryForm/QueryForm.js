@@ -30,7 +30,7 @@ const QueryForm = (props)=>{
                 const get_response = await api.get("/api/v3/display");
                 if(get_response!==null){
                     const queryInfo = get_response.data;
-                    setResponseInfo(queryInfo.slice(0, 5));
+                    setResponseInfo(queryInfo);
                     setShowResponse(true);
                     setIsButtonDisabled(false);
                 }
@@ -48,9 +48,6 @@ const QueryForm = (props)=>{
         api.get("/api/v3/exportJSON", {responseType: 'blob'})
             .then((response) => {
             const blob = new Blob([response.data], {type: 'application/json'});
-
-            console.log(blob);
-
             const url = window.URL.createObjectURL(blob);
             const a = document.createElement('a');
             a.href = url;
@@ -84,10 +81,9 @@ const QueryForm = (props)=>{
                         right: "0",
                     }}
                 />
-                <h2> Enter Query</h2>
+                <h2> Enter SQL Query</h2>
                 <form className="query-form">
-                    <label htmlFor="sqlQuery">SQL Query</label>
-                    <input value={sqlQuery} onChange={e=>setQuery(e.target.value)}
+                    <textarea value={sqlQuery} onChange={e=>setQuery(e.target.value)}
                            type="sqlQuery" placeholder='enter query' id="sqlQuery" name="sqlQuery"/>
                     <button onClick={querySubmit} type="submit">Submit Query</button>
                     <button disabled={isButtonDisabled} onClick={exportJSON} type="submit">Export JSON</button>
@@ -98,6 +94,7 @@ const QueryForm = (props)=>{
                 <div className="response-form" style={{ flex: 1 }}>
                     <h2>Response</h2>
                     <div className="response-container" style={{ flex: 1 }}>
+                        <text><center><i>First 5 Results</i></center></text>
                         <pre>
                         {JSON.stringify(responseInfo, null, 2)}
                         </pre>

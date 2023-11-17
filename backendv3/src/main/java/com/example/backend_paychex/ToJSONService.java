@@ -17,20 +17,20 @@ import java.lang.*;
 @Service
 public class ToJSONService {
     protected static String jsonStr;
-//    private Map <String, Object> resultMap = new LinkedHashMap<>();
+    protected static String topFiveJSON;
     private ArrayList<Object> results = new ArrayList<>();
 
     protected void getQueryResults(ResultSet rs, int columnCount, ResultSetMetaData metaData){
         /*  Input: ResultSet contains results from query, int num of columns for table, ResultsSetMetaData
-            Output: LinkedHash Map <String, Object>
-            Constructs linked hashmap from result set values and column names from result set metadata*/
-        String colName;
+            Output: None
+            Constructs ArrayList <LinkedHashMap>  from result set values and column names from result set metadata*/
+        String colName, tableName;
         try{
             while (rs.next()) { //iterates over result set
                 LinkedHashMap<String, Object> builder = new LinkedHashMap<>();
                 for (int columnInd = 1; columnInd <= columnCount; columnInd++) {
-                    colName = metaData.getColumnName(columnInd); //gets column name
-                    Object object = rs.getObject(columnInd); //gets cell value
+                    colName = metaData.getColumnName(columnInd);
+                    Object object = rs.getObject(columnInd);
                     builder.put(colName, object);
 
                 }
@@ -49,6 +49,8 @@ public class ToJSONService {
             Nests hash maps and converts to JSON string. Passes JSON string to writeJSON
         */
         Gson gson = new GsonBuilder().setPrettyPrinting().create(); //uses GSON library to format JSON string
-        jsonStr = gson.toJson(results); //converts hash tax_map to JSON string using GSON library
+        jsonStr = gson.toJson(results); //converts array list to JSON string using GSON library. Used to create JSON file
+        topFiveJSON = gson.toJson(results.subList(0, 5)); //converts first 5 elements into JSON string for display
+                                                        // on app page
     }
 }
