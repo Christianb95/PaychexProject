@@ -43,10 +43,11 @@ input{
 textarea{
   margin: 0.5rem auto 20px;
   min-width: 500px;
-  min-height: 20px;
+  min-height: 300px;
   max-width: 500px;
   max-height: 300px;
   width: 100%;
+  resize: none;
 }
 
 button{
