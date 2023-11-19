@@ -1,6 +1,5 @@
 package com.example.backend_paychex;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
+import com.google.gson.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -18,8 +17,8 @@ import java.lang.*;
 @NoArgsConstructor
 @Service
 public class ToJSONService {
-    protected static String jsonStr;
-    protected static String topFiveJSON;
+    protected static JSONArray jsonFullArray;
+    protected static JSONArray topFiveJSON;
     private ArrayList<Object> results = new ArrayList<>();
 
     protected void getQueryResults(ResultSet rs, int columnCount, ResultSetMetaData metaData){
@@ -27,42 +26,100 @@ public class ToJSONService {
             Output: None
             Constructs ArrayList <LinkedHashMap>  from result set values and column names from result set metadata*/
         String colName, tableName;
+//        JsonObject test = new JsonObject();
+//        JsonArray data = new JsonArray();
         try {
             while (rs.next()) {
                 //iterates over result set
-                LinkedHashMap<String, Object> builder = new LinkedHashMap<>();
+//                JSONObject builder = new JSONObject();
+                LinkedHashMap<String, List<Object>> builder = new LinkedHashMap<>();
+//                JsonArray row = new JsonArray();
+//                for (int columnInd = 1; columnInd <= columnCount; columnInd++) {
+//                    colName = metaData.getColumnName(columnInd);
+//                   row.add(new JsonPrimitive(rs.getString(colName)));
+//                }
+//                data.add(row);
 
                 for (int columnInd = 1; columnInd <= columnCount; columnInd++) {
-                    LinkedHashMap<String, Object> nested = new LinkedHashMap<>();
                     Object object = rs.getObject(columnInd); // gets field value
+                    JSONObject test = new JSONObject(object);
+                    System.out.println(test);
                     colName = metaData.getColumnName(columnInd);
 
                     if (colName.contains(".")) {
-                        nested.clear();
                         List<String> temp = Arrays.asList(colName.split("\\."));
                         Collections.reverse(temp);
 
-                        LinkedHashMap<String, Object> current = nested;
+                        JSONObject nested = new JSONObject();
 
-                        for (String ele : temp) {
-                            //add in first section, which is ele/field val
-                            current.put(ele, object);
-                            System.out.println(current);
-                            object = current;
-                            System.out.println(object);
-                            current = new LinkedHashMap<>();
+                        for (int i = 0; i < temp.size() - 1; i++) {
+                            String ele = temp.get(i);
+                            if (nested.isEmpty())
+                                nested = new JSONObject().put(ele, object);
+                            else
+                                nested = new JSONObject().put(ele, nested);
                         }
-                        System.out.println(nested);
-                        builder.put(temp.get(temp.size()-1), nested);
-                        System.out.println(builder);
-                        System.out.println();
+/*                        System.out.println(nested);*/
+                        String key = temp.get(temp.size() - 1);
+                        if (builder.containsKey(key)){
+                            List<Object> values = builder.get(key);
+                            values.add(nested);
+                        }
+                        else if (!colName.equals(key)){
+                            List<Object>values = new ArrayList<>();
+                            values.add(nested);
+                            builder.put(key, values);
+                        }
                     } else {
-                        builder.put(colName, object);
+                        List<Object>values = new ArrayList<>();
+                        values.add(object);
+                        builder.put(colName, values);
                     }
-
                 }
+
                 results.add(builder);
             }
+
+//                LinkedHashMap<String, Object> builder = new LinkedHashMap<>();
+//
+//                for (int columnInd = 1; columnInd <= columnCount; columnInd++) {
+//                    LinkedHashMap<String, Object> nested = new LinkedHashMap<>();
+//                    Object object = rs.getObject(columnInd); // gets field value
+//                    colName = metaData.getColumnName(columnInd);
+//
+//                    if (colName.contains(".")) {
+//                        nested.clear();
+//                        List<String> temp = Arrays.asList(colName.split("\\."));
+//                        Collections.reverse(temp);
+//                        LinkedHashMap<String, Object> current = nested;
+//                        for (int i = 0; i < temp.size()-1; i++){
+//                            String ele = temp.get(i);
+//                            if (nested.isEmpty())
+//                                current.put(ele, object);
+//                            else
+//                                current.put(ele, nested);
+//                            nested = current;
+//                            current = new LinkedHashMap<>();
+//                            System.out.println(nested);
+//                        }
+//
+////                        for (String ele : temp) {
+////                            //add in first section, which is ele/field val
+////                            current.put(ele, object);
+////                            object = current;
+////                            current = new LinkedHashMap<>();
+////                        }
+//                        builder.put(temp.get(temp.size()-1), nested);
+//                        System.out.println(builder);
+//                    } else {
+//                        builder.put(colName, object);
+//                    }
+//
+//                }
+//                results.add(builder);
+//                }
+//            test.add("Example", data);
+//            System.out.println(test);
         }
         catch (SQLException e) {
             e.printStackTrace();
@@ -75,12 +132,16 @@ public class ToJSONService {
             Output: None
             Nests hash maps and converts to JSON string. Passes JSON string to writeJSON
         */
-        Gson gson = new GsonBuilder().setPrettyPrinting().create(); //uses GSON library to format JSON string
-        jsonStr = gson.toJson(results); //converts array list to JSON string using GSON library. Used to create JSON file
+        jsonFullArray = new JSONArray(results);
+        List<Object> topFive;
+//
+//        Gson gson = new GsonBuilder().setPrettyPrinting().create(); //uses GSON library to format JSON string
+//        jsonStr = gson.toJson(jsonFullArray); //converts array list to JSON string using GSON library. Used to create JSON file
         if (results.size()>5) {
-            topFiveJSON = gson.toJson(results.subList(0, 5)); //converts first 5 elements into JSON string for display
+            topFive = results.subList(0, 5);//converts first 5 elements into JSON string for display
         }else{
-            topFiveJSON = gson.toJson(results);// on app page
+            topFive = results;// on app page
         }
+        topFiveJSON = new JSONArray(topFive);
     }
 }

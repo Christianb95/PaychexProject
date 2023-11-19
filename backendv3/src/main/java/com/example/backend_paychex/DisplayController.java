@@ -20,6 +20,6 @@ public class DisplayController {
     //provides JSON display to client-side. Displays errors or no?
     @GetMapping("/display")
     public ResponseEntity<String> display(){
-        return new ResponseEntity<String>(ToJSONService.topFiveJSON, HttpStatus.OK); //TODO Convert to JSON string
+        return new ResponseEntity<String>(String.valueOf(ToJSONService.topFiveJSON), HttpStatus.OK); //TODO Convert to JSON string
     }
 }
