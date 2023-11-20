@@ -16,7 +16,7 @@ public class ExportJSONController {
         response.setHeader("Content-Disposition", "attachment; filename=data.json");
         response.setContentType("application/json");
 
-        response.getWriter().write(String.valueOf(ToJSONService.jsonFullArray));
+        response.getWriter().write(String.valueOf(ToJSONService.data));
 
     }
 

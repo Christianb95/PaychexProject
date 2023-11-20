@@ -14,7 +14,6 @@ import java.util.ArrayList;
 @Component
 public class SQLQuery{
     private String query;
-    @Autowired
     private ToJSONService toJSONService = new ToJSONService();
     protected static Connection con;
     protected static String username;
