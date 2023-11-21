@@ -35,6 +35,7 @@ const QueryForm = (props)=>{
                     setIsButtonDisabled(false);
                 }
             }catch (error){
+                setResponseInfo()
                 notify(error.response.data, "warning");
             }
         }

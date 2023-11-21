@@ -28,21 +28,24 @@ public class SQLQuery{
         Class.forName("oracle.jdbc.driver.OracleDriver"); //Driver information.
         con = DriverManager.getConnection(databaseURL, username, PasswordSec.decrypt(password));
     }
-    protected void queryBuilder(String safeQuery) throws SQLException {
+    protected void queryBuilder(String safeQuery) throws Exception {
         /*  Input: Sanitized string query
             Output: None
             builds query as prepared statement, and passes query info to create JSON string */
-        PreparedStatement stmt = con.prepareStatement(safeQuery); //prepares query
-        ResultSet rs = stmt.executeQuery(); //executes SQL query and returns result set
-        ResultSetMetaData metaData = rs.getMetaData(); //gets metadata from result set to use as keys
-        int columnCount = metaData.getColumnCount(); //gets column count from metadata for iteration
-        toJSONService.getQueryResults(rs, columnCount, metaData); //calls conversion to JSON
-        stmt.clearParameters();
-        rs.close();
-        stmt.close();
-        con.close();
-
-
+        try {
+            PreparedStatement stmt = con.prepareStatement(safeQuery); //prepares query
+            ResultSet rs = stmt.executeQuery(); //executes SQL query and returns result set
+            ResultSetMetaData metaData = rs.getMetaData(); //gets metadata from result set to use as keys
+            int columnCount = metaData.getColumnCount(); //gets column count from metadata for iteration
+            toJSONService.getQueryResults(rs, columnCount, metaData); //calls conversion to JSON
+            stmt.clearParameters();
+            rs.close();
+            stmt.close();
+            con.close();
+        }catch (Exception e){
+            e.printStackTrace();
+            throw e;
+        }
         //closes out statements, sets, and connection
 
     }

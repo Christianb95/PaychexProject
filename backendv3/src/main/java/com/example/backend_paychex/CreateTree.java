@@ -10,7 +10,7 @@ class CreateTree {
         /*Adds root node when create tree is called*/
         this.root = new TreeNode("root");
     }
-    public void addPath(String colName, Object value) {
+    public void addPath(String colName, Object value) throws Exception {
         /*
         Input: String path of Result set column name, Object value for the value of the cell in the result set
         Output: None
@@ -26,10 +26,13 @@ class CreateTree {
             if (!currentNode.getChildren().containsKey(name)) {
                 TreeNode newNode = new TreeNode(name);
                 currentNode.addChild(newNode);
-
                 if (i == names.length-1){
                     newNode.setValue(value);
                 }
+                //makes any
+            }else if(currentNode.getChild(name).getValue() != null){
+                String message = "Can't have %s and %s as field names in the same query".formatted(colName, currentNode.getChild(name).getName());
+                throw new Exception(message);
             }
             //Gets child-node from map, and sets current node as retrieved child-node
             currentNode = currentNode.getChildren().get(name);

@@ -21,7 +21,7 @@ public class ToJSONService {
     protected static JsonBuilderFactory data = Json.createBuilderFactory(null);
     protected static ArrayList<Object> results = new ArrayList<>();
 
-    protected void getQueryResults(ResultSet rs, int columnCount, ResultSetMetaData metaData) {
+    protected void getQueryResults(ResultSet rs, int columnCount, ResultSetMetaData metaData) throws Exception{
         /*  Input: ResultSet contains results from query, int num of columns for table, ResultsSetMetaData
             Output: None
             Constructs tree for hierarchical data*/
@@ -42,6 +42,7 @@ public class ToJSONService {
             }
         } catch (Exception e) {
             e.printStackTrace();
+            throw e;
         }
         modArray();
     }
