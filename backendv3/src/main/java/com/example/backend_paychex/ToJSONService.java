@@ -1,6 +1,7 @@
 package com.example.backend_paychex;
 import com.google.gson.*;
 import jakarta.json.JsonArray;
+import jakarta.json.JsonObject;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
@@ -39,12 +40,7 @@ public class ToJSONService {
                     colName = metaData.getColumnName(columnInd);
                     if (colName.contains(".")){
                         List<String> colSplit = List.of(colName.split("\\."));
-                        for(Object ele: colSplit){
-                            jsonObjectBuilder.add(String.valueOf(colSplit.get(0)), data.createArrayBuilder()
-                                    .add(data.createObjectBuilder()
-                                    .add(String.valueOf(ele), String.valueOf(object)
-                                    )));
-                        }
+                        nestedJsonObject(jsonObjectBuilder, colSplit, object);
                     }else {
                         jsonObjectBuilder.add(colName, String.valueOf(object));
                     }
@@ -56,6 +52,20 @@ public class ToJSONService {
             e.printStackTrace();
         }
         toJSON();
+    }
+
+    private void nestedJsonObject(JsonObjectBuilder jsonObjectBuilder, List<String> colSplit, Object value) {
+        JsonObject currentObj;
+        for (int i = 0; i < colSplit.size()-1; i++) {
+            String key = colSplit.get(i);
+            if (!jsonObjectBuilder.build().containsKey(key)) {
+                jsonObjectBuilder.add(key, data.createObjectBuilder());
+            }
+            currentObj = jsonObjectBuilder.build().get(key);
+        }
+        String lastKey = colSplit.get(colSplit.size()-1);
+        jsonObjectBuilder.add(lastKey, String.valueOf(value));
+        System.out.println(jsonObjectBuilder.build());
     }
 //TODO: Make more flexible. Handle complex queries.
     protected void toJSON(){
