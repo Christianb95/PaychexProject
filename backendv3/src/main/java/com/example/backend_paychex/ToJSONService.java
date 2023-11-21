@@ -20,6 +20,7 @@ import java.lang.*;
 @Service
 public class ToJSONService {
     protected static JsonArray topFiveJSON;
+    protected static JsonArray jsonFullArray;
     protected static JsonBuilderFactory data = Json.createBuilderFactory(null);
     protected static JsonArrayBuilder jsonArray = data.createArrayBuilder();
 //    private ArrayList<Object> results = new ArrayList<>();
@@ -36,34 +37,39 @@ public class ToJSONService {
                 for (int columnInd = 1; columnInd <= columnCount; columnInd++) {
                     Object object = rs.getObject(columnInd); // gets field value
                     colName = metaData.getColumnName(columnInd);
-                    if
-                    jsonObjectBuilder.add(colName, String.valueOf(object));
+                    if (colName.contains(".")){
+                        List<String> colSplit = List.of(colName.split("\\."));
+                        for(Object ele: colSplit){
+                            jsonObjectBuilder.add(String.valueOf(colSplit.get(0)), data.createArrayBuilder()
+                                    .add(data.createObjectBuilder()
+                                    .add(String.valueOf(ele), String.valueOf(object)
+                                    )));
+                        }
+                    }else {
+                        jsonObjectBuilder.add(colName, String.valueOf(object));
+                    }
                 }
                 jsonArray.add(jsonObjectBuilder);
             }
-            System.out.println(jsonArray.build());
         }
         catch (Exception e) {
             e.printStackTrace();
         }
-        toJSONWithGSON();
+        toJSON();
     }
 //TODO: Make more flexible. Handle complex queries.
-    protected void toJSONWithGSON(){
+    protected void toJSON(){
         /*  Input: Map<String, Object>
             Output: None
             Nests hash maps and converts to JSON string. Passes JSON string to writeJSON
         */
-//        jsonFullArray = new JSONArray(results);
-        List<Object> topFive;
-//
-//        Gson gson = new GsonBuilder().setPrettyPrinting().create(); //uses GSON library to format JSON string
-//        jsonStr = gson.toJson(jsonFullArray); //converts array list to JSON string using GSON library. Used to create JSON file
-//        if (data.length()>5) {
-//            topFive = data.toList().subList(0, 5);//converts first 5 elements into JSON string for display
-//        }else{
-//            topFive = data.toList();// on app page
-//        }
-//        topFiveJSON = new JSONArray(topFive);
+        JsonArrayBuilder firstFiveElementsBuilder = Json.createArrayBuilder();
+        jsonFullArray = jsonArray.build().asJsonArray();
+
+        for (int i = 0; i < Math.min(5, jsonFullArray.size()); i++) {
+            firstFiveElementsBuilder.add(jsonFullArray.get(i));
+        }
+        topFiveJSON = firstFiveElementsBuilder.build();
+        System.out.println(topFiveJSON);
     }
 }
