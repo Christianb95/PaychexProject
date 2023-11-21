@@ -23,7 +23,4 @@ public class TreeNode {
         children.put(child.getName(), child);
     }
 
-    public TreeNode getChild(String childName){
-        return children.get(childName);
-    }
 }

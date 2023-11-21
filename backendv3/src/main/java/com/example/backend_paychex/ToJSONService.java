@@ -26,6 +26,7 @@ public class ToJSONService {
             Output: None
             Constructs tree for hierarchical data*/
         String colName;
+        results.clear();
         try {
             while (rs.next()) {
                 //Initializes tree to store data from result set in hierarchy
@@ -49,6 +50,7 @@ public class ToJSONService {
           Output: None
           Creates sublist of first 5 results array for displaying on front end page
          */
-        topFiveJSON = results.subList(0, 5);
+        int endIdx = Math.min(results.size(), 5);
+        topFiveJSON = results.subList(0, endIdx);
     }
 }
