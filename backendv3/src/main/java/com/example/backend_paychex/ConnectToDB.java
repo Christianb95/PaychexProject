@@ -15,7 +15,7 @@ import java.sql.SQLException;
 @Getter
 @Service
 public class ConnectToDB {
-    /* DTO temporarily stores username, password, and databaseURL to form and close database connection.
+    /* DTO temporarily stores username, encrypted password, and databaseURL to form and close database connection.
       Stores connection */
     private String username;
     private String password;

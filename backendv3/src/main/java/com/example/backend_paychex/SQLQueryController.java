@@ -20,7 +20,7 @@ public class SQLQueryController {
         String query = sqlQuery.getQuery();
         try {
             boolean isSafe = isSafeQuery(query);
-            if(isSafe) {
+            if (isSafe) {
                 sqlQuery.createConnection(); //creates database connection stored in sqlQuery
                 sqlQuery.queryBuilder(query);
                 return ResponseEntity.ok("Query Successful");
@@ -28,11 +28,8 @@ public class SQLQueryController {
                 String message = "Query contains prohibited actions";
                 throw new SQLtoJSONException.NotSafeQuery();
             }
-        } catch(SQLtoJSONException.NotSafeQuery e){
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Invalid Query. Please re-enter and resubmit");
-        } catch (SQLException | ClassNotFoundException e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Query failed: " + e.getMessage());
-
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
         }
     }
 

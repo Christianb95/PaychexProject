@@ -6,7 +6,7 @@ import java.nio.file.Path;
 
 public class SQLtoJSONSecurity {
     public static boolean isSafeQuery(String sqlQuery){
-        String pattern = ".*\\b(DELETE|INSERT|DROP|ADD|CREATE|ALTER|TRUNCATE|UPDATE)\\b.*";
+        String pattern = "(?i).*\\b(DELETE|INSERT|DROP|ADD|CREATE|ALTER|TRUNCATE|UPDATE)\\b.*";
         return !sqlQuery.matches(pattern);
     }
 }
