@@ -21,12 +21,11 @@ public class SQLQueryController {
         try {
             boolean isSafe = isSafeQuery(query);
             if (isSafe) {
-                sqlQuery.createConnection(); //creates database connection stored in sqlQuery
                 sqlQuery.queryBuilder(query);
                 return ResponseEntity.ok("Query Successful");
             } else {
                 String message = "Query contains prohibited actions";
-                throw new SQLtoJSONException.NotSafeQuery();
+                throw new Exception(message);
             }
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());

@@ -8,24 +8,24 @@ import java.util.List;
 import java.util.Map;
 
 @Getter
-public class TreeNode {
+public class ResultTreeNode {
     /*Node for tree along with hashmap for children nodes*/
     private String name;
-    private Map<String, TreeNode> children;
+    private Map<String, ResultTreeNode> children;
     private List<String> path;
     @Setter
     private Object value;
 
-    public TreeNode(String name){
+    public ResultTreeNode(String name){
         this.name = name;
         this.children = new HashMap<>();
         this.path = new ArrayList<>();
     }
 
-    public void addChild(TreeNode child){
+    public void addChild(ResultTreeNode child){
         children.put(child.getName(), child);
     }
-    public TreeNode getChild(String childName) {
+    public ResultTreeNode getChild(String childName) {
         return children.get(childName);
     }
 

@@ -2,6 +2,10 @@ package com.example.backend_paychex;
 
 public class PasswordSec {
     public static String decrypt(String encryptedData) {
+        /*
+        Input: encrypted String
+        Output: decrypted String
+         */
 
         int shift = 3;
         StringBuilder decryptedData = new StringBuilder();

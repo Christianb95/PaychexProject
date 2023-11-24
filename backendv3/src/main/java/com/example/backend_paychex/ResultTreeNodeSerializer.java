@@ -5,9 +5,9 @@ import com.google.gson.*;
 import java.lang.reflect.Type;
 import java.util.Map;
 
-class TreeNodeSerializer implements JsonSerializer<TreeNode> {
+class ResultTreeNodeSerializer implements JsonSerializer<ResultTreeNode> {
     @Override
-    public JsonElement serialize(TreeNode treeNode, Type type, JsonSerializationContext jsonSerializationContext) {
+    public JsonElement serialize(ResultTreeNode resultTreeNode, Type type, JsonSerializationContext jsonSerializationContext) {
         JsonObject jsonObject = new JsonObject();
         /*
         Input: root TreeNode to be serialized, type of object, and serialization context
@@ -16,12 +16,12 @@ class TreeNodeSerializer implements JsonSerializer<TreeNode> {
         until last child is reached. Base case is triggered as only last child node has non-null value in it.
         Adds serialized objects to jsonObject and returns
          */
-        if (treeNode.getValue() != null) {
-            return jsonSerializationContext.serialize(treeNode.getValue());
+        if (resultTreeNode.getValue() != null) {
+            return jsonSerializationContext.serialize(resultTreeNode.getValue());
         }
 
         //iterates over node and serializes child-node
-        for (Map.Entry<String, TreeNode> entry : treeNode.getChildren().entrySet()) {
+        for (Map.Entry<String, ResultTreeNode> entry : resultTreeNode.getChildren().entrySet()) {
             jsonObject.add(entry.getKey(), serialize(entry.getValue(), type, jsonSerializationContext));
         }
 

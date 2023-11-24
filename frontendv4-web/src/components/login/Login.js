@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useState, useEffect} from "react";
 import {toast} from "react-toastify";
 import api from "../../api/axiosConfig"
 import logoImage from "../../Assets/Paychex_logo.svg.png"; // Import your image file
@@ -7,6 +7,7 @@ const Login = (props) => {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [dbURL, setDBURL] = useState("");
+
     const notify = (message, type)=>{
         toast(message, {position: toast.POSITION.TOP_CENTER, type: type});
     }
@@ -60,6 +61,8 @@ const Login = (props) => {
             }
         }
     }
+
+
     return (
         <div className="login-form-container">
             <img

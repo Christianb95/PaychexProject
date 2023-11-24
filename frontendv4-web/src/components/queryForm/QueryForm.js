@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useState, useEffect} from "react";
 import {toast} from "react-toastify";
 import api from "../../api/axiosConfig";
 import logoImage from "../../Assets/Paychex_logo.svg.png";
@@ -8,6 +8,7 @@ const QueryForm = (props)=>{
     const [responseInfo, setResponseInfo] = useState();
     const [isButtonDisabled, setIsButtonDisabled] = useState(true);
     const [showResponse, setShowResponse] = useState(true);
+    const [active, setActive] = useState(true);
 
     const notify = (message, type)=>{
         toast(message, {position: toast.POSITION.TOP_CENTER, type: type});
@@ -66,6 +67,49 @@ const QueryForm = (props)=>{
         notify("Exited application", "success");
         props.onPageSwitch("login"); //passes in login, or ternary statement remains false
     }
+
+    const checkActivity = () =>{
+        const expireTime = localStorage.getItem("expireTime");
+        if (expireTime < Date.now()) {
+            console.log(expireTime);
+            setActive(false);
+            props.onPageSwitch("login");
+        }else if (expireTime < Date.now()-60*1000){
+            notify("One minute until automatic log out", "warning")
+        }
+    }
+
+    const updateExpireTime = () =>{
+        const expire = Date.now() + 10*60*1000; //expireTime is reset to 10 minutes
+        localStorage.setItem("expireTime", expire.toString());
+    }
+
+    useEffect(() => {
+        const interval = setInterval(() => {
+            checkActivity();
+        }, 50000);
+        return () =>
+        clearInterval(interval)
+    }, []);
+
+    useEffect(() =>{
+        //sets expire time
+        updateExpireTime()
+
+        //sets listeners
+        window.addEventListener("click", updateExpireTime);
+        window.addEventListener("keypress", updateExpireTime);
+        window.addEventListener("scroll", updateExpireTime);
+        window.addEventListener("mousemove", updateExpireTime);
+
+        return () => {
+            window.removeEventListener("click", updateExpireTime);
+            window.removeEventListener("keypress", updateExpireTime);
+            window.removeEventListener("scroll", updateExpireTime);
+            window.removeEventListener("mousemove", updateExpireTime);
+
+        }
+    }, [])
 
     return(
         <div style={{ display: "flex" }}>
