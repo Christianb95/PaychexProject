@@ -1,6 +1,4 @@
 package com.example.backend_paychex;
-import jakarta.json.Json;
-import jakarta.json.JsonBuilderFactory;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.springframework.stereotype.Service;
@@ -16,7 +14,6 @@ import java.util.List;
 @Service
 public class ResultsToJSON {
     protected static List<Object> topFiveJSON;
-    protected static JsonBuilderFactory data = Json.createBuilderFactory(null);
     protected static ArrayList<Object> results = new ArrayList<>();
 
     protected void getQueryResults(ResultSet rs, int columnCount, ResultSetMetaData metaData) throws Exception{

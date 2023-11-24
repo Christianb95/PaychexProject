@@ -13,6 +13,7 @@ class ResultCreateTree {
         /*Adds root node when create tree is called*/
         this.root = new ResultTreeNode("root");
     }
+
     public void addPath(String colName, Object value) throws Exception {
         /*
         Input: String path of Result set column name, Object value for the value of the cell in the result set
@@ -35,21 +36,25 @@ class ResultCreateTree {
                 }
             } else if(currentNode.getChild(name) != null && names.size() == 1) { //check if this node is in the tree,
                                                                                 // and the len of this list is 1
-                String message = "Can't have %s and %s as field names in the same query".formatted(colName, currentNode.getChild(name).getName());
+                String message = String.format("Can't have %s and %s as field names in the same query", colName, currentNode.getChild(name).getName());
                 throw new Exception(message);
 
             } else if (Objects.equals(currentNode.getChild(name).getPath(), colName)) {//check if path and column
                                                                                         // name is duplicate
-                String message = "Can't have %s and %s as field names in the same query".formatted(colName, currentNode.getChild(name).getPath());
+                String message = String.format("Can't have %s and %s as field names in the same query", colName, currentNode.getChild(name).getPath());
                 throw new Exception(message);
 
             }else if(currentNode.getChild(name).getValue() != null){ //check if this node is in the tree,
                                                                     // and already has a value associated with it
-                String message = "Can't have %s and %s as field names in the same query".formatted(currentNode.getChild(name).getName(), colName);
+                String message = String.format("Can't have %s and %s as field names in the same query",currentNode.getChild(name).getName(), colName);
                 throw new Exception(message);
 
             }
             //Gets child-node from map, and sets current node as retrieved child-node
+            System.out.println(currentNode.getName());
+            System.out.println(currentNode.getChildren());
+            System.out.println(currentNode.getPath());
+            System.out.println(currentNode.getValue());
             currentNode = currentNode.getChildren().get(name);
 
         }
