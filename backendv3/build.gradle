@@ -34,7 +34,6 @@ dependencies {
     implementation 'org.json:json:20230618'
     implementation 'com.github.javafaker:javafaker:1.0.2'
     implementation 'junit:junit:4.13.2'
-    implementation 'jakarta.servlet:jakarta.servlet-api:6.0.0'
 }
 
 tasks.named('test') {

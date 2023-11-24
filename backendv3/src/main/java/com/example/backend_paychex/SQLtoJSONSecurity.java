@@ -14,4 +14,14 @@ public class SQLtoJSONSecurity {
         String pattern = "(?i).*\\b(DELETE|INSERT|DROP|ADD|CREATE|ALTER|TRUNCATE|UPDATE)\\b.*";
         return !sqlQuery.matches(pattern);
     }
+
+    public static boolean validateURL(String dbURL) {
+        /*
+        Input: String database URL
+        Output: Bool
+        Tests database URL to see if allowed database
+        * */
+        String pattern = "(?i).*\\b(jdbc:oracle|jdbc:mysql|jdbc:sqlserver|jdbc:postgresql)\\b.*";
+        return dbURL.matches(pattern);
+    }
 }

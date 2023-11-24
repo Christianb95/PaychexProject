@@ -11,11 +11,12 @@ const QueryForm = (props)=>{
     const [active, setActive] = useState(true);
 
     const notify = (message, type)=>{
+        /*Uses toast library to create pop up notifications*/
         toast(message, {position: toast.POSITION.TOP_CENTER, type: type});
     }
     const validate = ()=>{
+        /*Ensures empty query field is not submitted*/
         let result = true;
-        console.log(sqlQuery);
         if(sqlQuery===""||sqlQuery===null){
             notify("Query can not be empty", "warning");
             result = false;
@@ -50,6 +51,7 @@ const QueryForm = (props)=>{
         api.get("/api/v3/exportJSON", {responseType: 'blob'})
             .then((response) => {
             const blob = new Blob([response.data], {type: 'application/json'});
+            console.log(blob);
             const url = window.URL.createObjectURL(blob);
             const a = document.createElement('a');
             a.href = url;
@@ -71,7 +73,6 @@ const QueryForm = (props)=>{
     const checkActivity = () =>{
         const expireTime = localStorage.getItem("expireTime");
         if (expireTime < Date.now()) {
-            console.log(expireTime);
             setActive(false);
             props.onPageSwitch("login");
         }else if (expireTime < Date.now()-60*1000){
