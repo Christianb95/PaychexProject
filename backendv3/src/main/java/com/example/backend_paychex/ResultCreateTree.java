@@ -1,8 +1,6 @@
 package com.example.backend_paychex;
-
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-
 import java.util.List;
 import java.util.Objects;
 
@@ -26,27 +24,34 @@ class ResultCreateTree {
         ResultTreeNode currentNode = root;
         for (int i = 0; i < names.size(); i++) {
             String name = names.get(i);
-            //checks to see if current node is in tree and adds child if not
+            //checks to see if current node has child with name, and if not, creates new node, adds path to new node,
+            // and adds new node as child of current node.
             if (!currentNode.getChildren().containsKey(name)) {
                 ResultTreeNode newNode = new ResultTreeNode(name);
                 newNode.setPath(names.subList(0, i+1));
+                newNode.setOriginalCol(colName);
                 currentNode.addChild(newNode);
+
+                //sets value of
                 if (i == names.size()-1){
-                    newNode.setValue(value);
+                    newNode.setNodeVal(value);
                 }
             } else if(currentNode.getChild(name) != null && names.size() == 1) { //check if this node is in the tree,
                                                                                 // and the len of this list is 1
-                String message = String.format("Can't have %s and %s as field names in the same query", colName, currentNode.getChild(name).getName());
+                String message = String.format("Can't have %s and %s as field names in the same query", colName,
+                        currentNode.getChild(name).getName());
                 throw new Exception(message);
 
             } else if (Objects.equals(currentNode.getChild(name).getPath(), colName)) {//check if path and column
                                                                                         // name is duplicate
-                String message = String.format("Can't have %s and %s as field names in the same query", colName, currentNode.getChild(name).getPath());
+                String message = String.format("Can't have %s and %s as field names in the same query", colName,
+                        currentNode.getChild(name).getOriginalCol());
                 throw new Exception(message);
 
-            }else if(currentNode.getChild(name).getValue() != null){ //check if this node is in the tree,
+            }else if(currentNode.getChild(name).getNodeVal() != null){ //check if this node is in the tree,
                                                                     // and already has a value associated with it
-                String message = String.format("Can't have %s and %s as field names in the same query",currentNode.getChild(name).getName(), colName);
+                String message = String.format("Can't have %s and %s as field names in the same query",
+                        currentNode.getChild(name).getName(), colName);
                 throw new Exception(message);
 
             }

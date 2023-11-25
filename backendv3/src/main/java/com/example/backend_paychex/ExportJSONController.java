@@ -17,5 +17,4 @@ public class ExportJSONController {
         response.getWriter().write(String.valueOf(ResultsToJSON.results));
 
     }
-
 }

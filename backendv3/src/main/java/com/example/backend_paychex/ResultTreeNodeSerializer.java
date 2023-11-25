@@ -16,11 +16,11 @@ class ResultTreeNodeSerializer implements JsonSerializer<ResultTreeNode> {
         until last child is reached. Base case is triggered as only last child node has non-null value in it.
         Adds serialized objects to jsonObject and returns
          */
-        if (resultTreeNode.getValue() != null) {
-            return jsonSerializationContext.serialize(resultTreeNode.getValue());
+        if (resultTreeNode.getNodeVal() != null) {
+            return jsonSerializationContext.serialize(resultTreeNode.getNodeVal());
         }
 
-        //iterates over node and serializes child-node
+        //iterates over hashmap of children for current node, and calls serialize for each child node
         for (Map.Entry<String, ResultTreeNode> entry : resultTreeNode.getChildren().entrySet()) {
             jsonObject.add(entry.getKey(), serialize(entry.getValue(), type, jsonSerializationContext));
         }

@@ -17,7 +17,7 @@ const Login = (props) => {
         }
         if (password==="" || password===null) {
             result = false;
-            notify("Please enter a password", "warning");
+            notify("This is a React Toastify Notification!", "warning");
         }
         if (dbURL==="" || dbURL===null) {
             result = false;
@@ -81,7 +81,7 @@ const Login = (props) => {
                 <label htmlFor="password">password</label>
                 <input value={password} onChange={e=>setPassword(e.target.value)} type="password" placeholder='**********' id="password" name="password"/>
                 <label htmlFor="dbURL">Database URL</label>
-                <input value={dbURL} type="dbURL" onChange={e=>setDBURL(e.target.value)} placeholder='jdbc:oracle:thin:@<dbhost>:<dbport>:<sid>' id="dbURL" name="dbURL"/>
+                <input value={dbURL} type="dbURL" onChange={e=>setDBURL(e.target.value)} placeholder='Ex: jdbc:oracle:thin:@<dbhost>:<dbport>:<sid>' id="dbURL" name="dbURL"/>
                 <button type="submit">Login</button>
             </form>
         </div>

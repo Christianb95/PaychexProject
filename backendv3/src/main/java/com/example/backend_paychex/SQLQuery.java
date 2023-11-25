@@ -28,7 +28,7 @@ public class SQLQuery{
             ResultSet rs = stmt.executeQuery(); //executes SQL query and returns result set
             ResultSetMetaData metaData = rs.getMetaData(); //gets metadata from result set to use as keys
             int columnCount = metaData.getColumnCount(); //gets column count from metadata for iteration
-            resultsToJSON.getQueryResults(rs, columnCount, metaData); //calls conversion to JSON
+            resultsToJSON.getQueryResults(rs, columnCount, metaData); //processes query results and converts to JSON format
             stmt.clearParameters();
             rs.close();
             stmt.close();

@@ -83,7 +83,7 @@ const QueryForm = (props)=>{
     useEffect(() => {
         const interval = setInterval(() => {
             checkActivity();
-        }, 50000);
+        }, 60*1000);
         return () =>
         clearInterval(interval)
     });

@@ -12,9 +12,12 @@ public class ResultTreeNode {
     /*Node for tree along with hashmap for children nodes*/
     private String name;
     private Map<String, ResultTreeNode> children;
-    private List<String> path;
+    private List<String> path; //path but not including root, to current node. Ex ["name1", "name2"... "currentnode""],
+                                // not ["root", "name1", "name2"..."current node"]
     @Setter
-    private Object value;
+    private String originalCol;
+    @Setter
+    private Object nodeVal;
 
     public ResultTreeNode(String name){
         this.name = name;
