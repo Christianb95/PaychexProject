@@ -76,14 +76,14 @@ const QueryForm = (props)=>{
     }
 
     const updateExpireTime = () =>{
-        const expire = Date.now() + 3000; //expireTime is reset to 10 minutes
+        const expire = Date.now() + 10*60*1000; //expireTime is reset to 10 minutes
         localStorage.setItem("expireTime", expire.toString());
     }
 
     useEffect(() => {
         const interval = setInterval(() => {
             checkActivity();
-        }, 500);
+        }, 50000);
         return () =>
         clearInterval(interval)
     });
@@ -128,7 +128,7 @@ const QueryForm = (props)=>{
                            type="sqlQuery" placeholder='enter query' id="sqlQuery" name="sqlQuery"/>
                     <button onClick={querySubmit} type="submit">Submit Query</button>
                     <button disabled={isButtonDisabled} onClick={exportJSON} type="submit">Export JSON</button>
-                    <button disabled={isButtonDisabled} onClick={props.openGitModal} type="submit">Upload To Github</button>
+                    <button onClick={props.openGitModal} type="submit">Upload To Github</button>
                     <button onClick={exitToLogin} type="submit">Exit To Login</button>
                 </form>
             </div>

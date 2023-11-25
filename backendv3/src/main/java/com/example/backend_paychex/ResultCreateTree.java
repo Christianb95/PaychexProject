@@ -51,10 +51,6 @@ class ResultCreateTree {
 
             }
             //Gets child-node from map, and sets current node as retrieved child-node
-            System.out.println(currentNode.getName());
-            System.out.println(currentNode.getChildren());
-            System.out.println(currentNode.getPath());
-            System.out.println(currentNode.getValue());
             currentNode = currentNode.getChildren().get(name);
 
         }
@@ -74,7 +70,7 @@ class ResultCreateTree {
         "object": 1000000
       },
 
-      to
+      to desired output:
     [
       {
         "LOCATION_ID": 1000000,
