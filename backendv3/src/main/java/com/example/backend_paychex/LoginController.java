@@ -24,6 +24,7 @@ public class LoginController {
         try {
             Connection connection = DriverManager.getConnection(info.get("databaseURL"), info.get("username"),
                     PasswordSec.decrypt(info.get("password")));
+
             if (connection.isValid(3) && SQLtoJSONSecurity.validateURL(info.get("databaseURL"))){
                 SQLQuery.databaseURL = info.get("databaseURL");
                 SQLQuery.username = info.get("username");
