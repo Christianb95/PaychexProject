@@ -61,7 +61,7 @@ class ResultCreateTree {
         }
     }
 
-    public String toJson(){
+    public String toJsonWithGSON(){
         /*
         Input: None
         Output: jsonObject

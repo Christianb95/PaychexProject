@@ -33,9 +33,8 @@ public class ResultsToJSON {
                     Object value = rs.getObject(columnInd); // gets field value
                     colName = metaData.getColumnName(columnInd); //gets column name
                     createTree.addPath(colName, value);
-
                 }
-                results.add(createTree.toJson());
+                results.add(createTree.toJsonWithGSON());
             }
         } catch (Exception e) {
             e.printStackTrace();

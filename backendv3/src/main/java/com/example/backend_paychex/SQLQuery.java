@@ -3,6 +3,7 @@ package com.example.backend_paychex;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.springframework.stereotype.Component;
 import java.sql.*;
 
@@ -14,9 +15,12 @@ public class SQLQuery{
     private String query;
     private ResultsToJSON resultsToJSON = new ResultsToJSON();
     protected static Connection con;
-    protected static String username;
-    protected static String password;
-    protected static String databaseURL;
+    @Setter
+    private static String username;
+    @Setter
+    private static String password;
+    @Setter
+    private static String databaseURL;
 
     protected void queryBuilder(String safeQuery) throws Exception {
         /*  Input: Sanitized string query

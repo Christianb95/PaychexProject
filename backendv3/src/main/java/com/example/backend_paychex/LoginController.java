@@ -14,7 +14,7 @@ import java.util.Map;
 @RequestMapping("/api/v3")
 public class LoginController {
     @PostMapping("/login")
-    public ResponseEntity<String>login(@RequestBody Map<String, String> info) {
+    private ResponseEntity<String>login(@RequestBody Map<String, String> info) {
         /*  Input: RequestBody mapped to info Map
             Output: ResponseEntity for status
             Verifies log in information, and if login is accurate, info is passed to SQLQuery class vars
@@ -25,9 +25,9 @@ public class LoginController {
                     SQLtoJSONSecurity.decrypt(info.get("password")));
 
             if (connection.isValid(3) && SQLtoJSONSecurity.validateURL(info.get("databaseURL"))){
-                SQLQuery.databaseURL = info.get("databaseURL");
-                SQLQuery.username = info.get("username");
-                SQLQuery.password = info.get("password");
+                SQLQuery.setUsername(info.get("username"));
+                SQLQuery.setDatabaseURL(info.get("databaseURL"));
+                SQLQuery.setPassword(info.get("password"));
             }
             connection.close();
             return ResponseEntity.ok("Login Successful");

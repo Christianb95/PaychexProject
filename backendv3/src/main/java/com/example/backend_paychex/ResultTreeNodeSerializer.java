@@ -20,7 +20,8 @@ class ResultTreeNodeSerializer implements JsonSerializer<ResultTreeNode> {
             return jsonSerializationContext.serialize(resultTreeNode.getNodeVal());
         }
 
-        //iterates over hashmap of children for current node, and calls serialize for each child node
+        //iterates over hashmap of children for current node, gets singular key - value pair,
+        // and calls serialize on value
         for (Map.Entry<String, ResultTreeNode> entry : resultTreeNode.getChildren().entrySet()) {
             jsonObject.add(entry.getKey(), serialize(entry.getValue(), type, jsonSerializationContext));
         }
