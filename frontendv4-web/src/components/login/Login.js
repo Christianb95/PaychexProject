@@ -1,15 +1,17 @@
-import React, {useState} from "react";
-import {toast} from "react-toastify";
+import React, {useState, useEffect} from "react";
 import api from "../../api/axiosConfig"
 import logoImage from "../../Assets/Paychex_logo.svg.png"; // Import your image file
+import notify from "../../components/ToastNotify"
 
 const Login = (props) => {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [dbURL, setDBURL] = useState("");
-    const notify = (message, type)=>{
-        toast(message, {position: toast.POSITION.TOP_CENTER, type: type});
-    }
+    const [isButtonDisabled, setIsButtonDisabled] = useState(false);
+    const [currLogInTimes, setCurrLogInTimes] = useState(0); //gets reset
+    const [totalLogInTimes, setTotalLogInTimes] = useState(0); //gets reset
+    const maxLogin = 5; //amount of times user can attempt to log in before disablement
+
     const validate=()=>{
         //checks if username, password, and dbURL have been entered. Returns pop-up notification if empty or null
         let result = true;
@@ -38,7 +40,6 @@ const Login = (props) => {
             if (c.match(/[a-z]/i)) {
                 const isUpperCase = c === c.toUpperCase();
                 const offset = isUpperCase ? 'A'.charCodeAt(0) : 'a'.charCodeAt(0);
-                console.log((c.charCodeAt(0) - offset + shift) % 26 + offset);
                 encryptedData += String.fromCharCode(offset + (c.charCodeAt(0) + shift - offset) % 26);
             } else {
                 encryptedData += c;
@@ -51,15 +52,32 @@ const Login = (props) => {
         e.preventDefault();
         if(validate()){
             try{
-                console.log(password);
                 const response = await api.post("/api/v3/login", {username:username, password:encrypt(password), databaseURL:dbURL});
                 notify("Log in to database successful!", "success");
                 props.onPageSwitch(); //does not need argument passed in due to ternary statement, see App.js
             }catch (error){
-                notify(error.response.data, "warning");
+                setCurrLogInTimes(currLogInTimes + 1);
+                setTotalLogInTimes(totalLogInTimes+1);
+                notify(error.response.data.toString(), "warning");
+                notify("You have " + (maxLogin-currLogInTimes-1).toString() + " tries remaining", "info")
             }
         }
     }
+
+    //function to check how many login tries, and if loginTimes === 5, then log in button is disabled for totalLogInTimes * 60 * 1000;
+
+    useEffect(() => {
+        lockOut();
+        }, [totalLogInTimes]);
+    const lockOut = () =>{
+        if (currLogInTimes === 5){
+            setIsButtonDisabled(true);
+            notify("Login disabled for " + (totalLogInTimes).toString() + " minutes");
+            setTimeout(() => setIsButtonDisabled(false), totalLogInTimes*60*1000);
+            setCurrLogInTimes(0);
+        }
+    }
+
     return (
         <div className="login-form-container">
             <img
@@ -81,8 +99,8 @@ const Login = (props) => {
                 <label htmlFor="password">password</label>
                 <input value={password} onChange={e=>setPassword(e.target.value)} type="password" placeholder='**********' id="password" name="password"/>
                 <label htmlFor="dbURL">Database URL</label>
-                <input value={dbURL} type="dbURL" onChange={e=>setDBURL(e.target.value)} placeholder='jdbc:oracle:thin:@<dbhost>:<dbport>:<sid>' id="dbURL" name="dbURL"/>
-                <button type="submit">Login</button>
+                <input value={dbURL} type="dbURL" onChange={e=>setDBURL(e.target.value)} placeholder='Ex: jdbc:oracle:thin:@<dbhost>:<dbport>:<sid>' id="dbURL" name="dbURL"/>
+                <button disabled={isButtonDisabled} type="submit">Login</button>
             </form>
         </div>
     )

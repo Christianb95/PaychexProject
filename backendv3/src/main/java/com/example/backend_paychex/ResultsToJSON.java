@@ -1,10 +1,6 @@
 package com.example.backend_paychex;
-import jakarta.json.Json;
-import jakarta.json.JsonArray;
-import jakarta.json.JsonBuilderFactory;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Service;
 import java.sql.*;
 import java.lang.*;
@@ -16,29 +12,29 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @Service
-public class ToJSONService {
+public class ResultsToJSON {
     protected static List<Object> topFiveJSON;
-    protected static JsonBuilderFactory data = Json.createBuilderFactory(null);
     protected static ArrayList<Object> results = new ArrayList<>();
 
     protected void getQueryResults(ResultSet rs, int columnCount, ResultSetMetaData metaData) throws Exception{
         /*  Input: ResultSet contains results from query, int num of columns for table, ResultsSetMetaData
             Output: None
-            Constructs tree for hierarchical data*/
+            Parses through ResultSet from SQL query and calls create tree for each element in result set, then calls
+            addpath to add columns as new node path in created tree*/
         String colName;
         results.clear();
         try {
             while (rs.next()) {
                 //Initializes tree to store data from result set in hierarchy
-                CreateTree createTree = new CreateTree();
-                //iterates over result set and passes column names and field value to construct tree
+                ResultCreateTree createTree = new ResultCreateTree();
+
+                //iterates over result set and passes column names and field value to construct tree path
                 for (int columnInd = 1; columnInd <= columnCount; columnInd++) {
                     Object value = rs.getObject(columnInd); // gets field value
                     colName = metaData.getColumnName(columnInd); //gets column name
                     createTree.addPath(colName, value);
-
                 }
-                results.add(createTree.toJson());
+                results.add(createTree.toJsonWithGSON());
             }
         } catch (Exception e) {
             e.printStackTrace();

@@ -1,8 +1,6 @@
 package com.example.backend_paychex;
-
-import jakarta.servlet.http.HttpServletResponse;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 
@@ -16,8 +14,7 @@ public class ExportJSONController {
         response.setHeader("Content-Disposition", "attachment; filename=data.json");
         response.setContentType("application/json");
 
-        response.getWriter().write(String.valueOf(ToJSONService.results));
+        response.getWriter().write(String.valueOf(ResultsToJSON.results));
 
     }
-
 }

@@ -1,20 +1,18 @@
-import React, {useState} from "react";
-import {toast} from "react-toastify";
+import React, {useState, useEffect} from "react";
 import api from "../../api/axiosConfig";
 import logoImage from "../../Assets/Paychex_logo.svg.png";
+import notify from "../../components/ToastNotify"
 
 const QueryForm = (props)=>{
     const [sqlQuery, setQuery] = useState("");
     const [responseInfo, setResponseInfo] = useState();
     const [isButtonDisabled, setIsButtonDisabled] = useState(true);
     const [showResponse, setShowResponse] = useState(true);
-
-    const notify = (message, type)=>{
-        toast(message, {position: toast.POSITION.TOP_CENTER, type: type});
-    }
+    const [active, setActive] = useState(true);
+    const [exportInfo, setExportInfo] = useState();
     const validate = ()=>{
+        /*Ensures empty query field is not submitted*/
         let result = true;
-        console.log(sqlQuery);
         if(sqlQuery===""||sqlQuery===null){
             notify("Query can not be empty", "warning");
             result = false;
@@ -28,7 +26,7 @@ const QueryForm = (props)=>{
                 const response = await api.post("/api/v3/query", {query:sqlQuery});
                 notify("Query submitted successfully", "success");
                 const get_response = await api.get("/api/v3/display");
-                if(get_response!==null){
+                if(get_response !== null){
                     const queryInfo = get_response.data;
                     setResponseInfo(queryInfo);
                     setShowResponse(true);
@@ -41,14 +39,12 @@ const QueryForm = (props)=>{
         }
     }
 
-    const handleEnableButton = () =>{
-        this.setState({isButtonDisabled: false})
-    }
     const exportJSON = async (e) =>{
         e.preventDefault();
         api.get("/api/v3/exportJSON", {responseType: 'blob'})
             .then((response) => {
             const blob = new Blob([response.data], {type: 'application/json'});
+            setExportInfo(response.data);
             const url = window.URL.createObjectURL(blob);
             const a = document.createElement('a');
             a.href = url;
@@ -61,11 +57,55 @@ const QueryForm = (props)=>{
         });
     }
 
+
     const exitToLogin = async (e)=>{
         e.preventDefault();
         notify("Exited application", "success");
         props.onPageSwitch("login"); //passes in login, or ternary statement remains false
     }
+
+    const checkActivity = () =>{
+        const expireTime = localStorage.getItem("expireTime");
+        if (expireTime < Date.now()) {
+            setActive(false);
+            props.closeGitModal();
+            props.onPageSwitch("login");
+        }else if (expireTime === Date.now()-60*1000){
+            notify("One minute until automatic log out", "warning")
+        }
+    }
+
+    const updateExpireTime = () =>{
+        const expire = Date.now() + 10*60*1000; //expireTime is reset to 10 minutes
+        localStorage.setItem("expireTime", expire.toString());
+    }
+
+    useEffect(() => {
+        const interval = setInterval(() => {
+            checkActivity();
+        }, 60*1000);
+        return () =>
+        clearInterval(interval)
+    });
+
+    useEffect(() =>{
+        //sets expire time
+        updateExpireTime()
+
+        //sets listeners
+        window.addEventListener("click", updateExpireTime);
+        window.addEventListener("keypress", updateExpireTime);
+        window.addEventListener("scroll", updateExpireTime);
+        window.addEventListener("mousemove", updateExpireTime);
+
+        return () => {
+            window.removeEventListener("click", updateExpireTime);
+            window.removeEventListener("keypress", updateExpireTime);
+            window.removeEventListener("scroll", updateExpireTime);
+            window.removeEventListener("mousemove", updateExpireTime);
+
+        }
+    })
 
     return(
         <div style={{ display: "flex" }}>
@@ -88,6 +128,7 @@ const QueryForm = (props)=>{
                            type="sqlQuery" placeholder='enter query' id="sqlQuery" name="sqlQuery"/>
                     <button onClick={querySubmit} type="submit">Submit Query</button>
                     <button disabled={isButtonDisabled} onClick={exportJSON} type="submit">Export JSON</button>
+                    <button onClick={props.openGitModal} type="submit">Upload To Github</button>
                     <button onClick={exitToLogin} type="submit">Exit To Login</button>
                 </form>
             </div>
@@ -103,7 +144,7 @@ const QueryForm = (props)=>{
                 </div>
             )}
         </div>
-    )
+        )
 }
 
 export default QueryForm
