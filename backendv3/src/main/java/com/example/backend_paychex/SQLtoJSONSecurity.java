@@ -16,7 +16,7 @@ public class SQLtoJSONSecurity {
 //                Pattern.CASE_INSENSITIVE | Pattern.MULTILINE);
 //        Matcher match = pattern.matcher(sqlQuery);
         sqlQuery = sqlQuery.trim();
-        String pattern = "(?ism).*\\b(SELECT|DELETE|Insert |DROP|ADD|CREATE|ALTER|TRUNCATE|UPDATE)\\b.*";
+        String pattern = "(?ism).*\\b(DELETE|Insert |DROP|ADD|CREATE|ALTER|TRUNCATE|UPDATE)\\b.*";
         return !sqlQuery.matches(pattern);
     }
 
@@ -26,8 +26,12 @@ public class SQLtoJSONSecurity {
         Output: Bool
         Tests database URL to see if allowed database
         * */
-        String pattern = "(?i).*\\b(jdbc:oracle|jdbc:mysql|jdbc:sqlserver|jdbc:postgresql)\\b.*";
-        return dbURL.matches(pattern);
+        String pattern = "^[a-zA-Z0-9:@]+$";
+        if (dbURL.matches(pattern)) {
+            String wordPattern = "(?i).*\\b(jdbc:oracle|jdbc:mysql|jdbc:sqlserver|jdbc:postgresql)\\b.*";
+            return dbURL.matches(wordPattern);
+        }
+        return false;
     }
     public static String decrypt(String encryptedData) {
         /*
