@@ -28,6 +28,7 @@ public class SQLQuery{
             builds query as prepared statement, and passes query info to create JSON string */
         try {
             con = DriverManager.getConnection(databaseURL, username, SQLtoJSONSecurity.decrypt(password));
+            con.setReadOnly(true);
             PreparedStatement stmt = con.prepareStatement(safeQuery); //prepares query
             ResultSet rs = stmt.executeQuery(); //executes SQL query and returns result set
             ResultSetMetaData metaData = rs.getMetaData(); //gets metadata from result set to use as keys

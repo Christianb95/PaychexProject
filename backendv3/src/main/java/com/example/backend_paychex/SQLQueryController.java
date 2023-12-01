@@ -3,6 +3,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import static com.example.backend_paychex.SQLtoJSONSecurity.isSafeQuery;
+import static com.example.backend_paychex.SQLtoJSONSecurity.singleQueryOnly;
 
 //Receives query from frontend, checks query for potential injections, sends query to query builder
 
@@ -19,7 +20,8 @@ public class SQLQueryController {
         String query = sqlQuery.getQuery();
         try {
             boolean isSafe = isSafeQuery(query);
-            if (isSafe) {
+            boolean isSingleQuery = singleQueryOnly(query);
+            if (isSafe && isSingleQuery) {
                 sqlQuery.queryBuilder(query);
                 return ResponseEntity.ok("Query Successful");
             } else {

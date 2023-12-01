@@ -58,6 +58,7 @@ const Login = (props) => {
 
     const handleSubmit = async (e) =>{
         e.preventDefault();
+        console.log(password)
         if(validate()){
             try{
                 const response = await api.post("/api/v3/login", {username:username, password:encrypt(password), databaseURL:dbURL});
@@ -108,12 +109,30 @@ const Login = (props) => {
             />
             <h2> Login </h2>
             <form className="login-form" onSubmit={handleSubmit}>
-                <label htmlFor="username">username</label>
-                <input value={username} onChange={e=>setUsername(e.target.value)} type="username" placeholder='username' id="username" name="username"/>
-                <label htmlFor="password">password</label>
-                <input value={password} onChange={e=>setPassword(e.target.value)} type="password" placeholder='**********' id="password" name="password"/>
+                <label htmlFor="username">Username</label>
+                <textarea autoComplete="off"
+                          value={username}
+                          onChange={e=>setUsername(e.target.value)}
+                          placeholder='username'
+                          id="username"
+                          name="username"/>
+
+                <label htmlFor="password">Password</label>
+                <input value={password}
+                       onChange={e=>setPassword(e.target.value)}
+                       type="password"
+                       placeholder='**********'
+                       id="password"
+                       name="password"/>
+
                 <label htmlFor="dbURL">Database URL</label>
-                <input value={dbURL} type="dbURL" onChange={e=>setDBURL(e.target.value)} placeholder='Ex: jdbc:oracle:thin:@<dbhost>:<dbport>:<sid>' id="dbURL" name="dbURL"/>
+                <textarea autoComplete="off"
+                          value={dbURL}
+                          onChange={e=>setDBURL(e.target.value)}
+                          placeholder='Ex: jdbc:oracle:thin:@<dbhost>:<dbport>:<sid>'
+                          id="dbURL"
+                          name="dbURL"/>
+
                 <button disabled={isButtonDisabled} type="submit">Login</button>
             </form>
         </div>

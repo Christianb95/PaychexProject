@@ -4,20 +4,36 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class SQLtoJSONSecurity {
-    public static boolean isSafeQuery(String sqlQuery){
+    public static boolean isSafeQuery(String sqlQuery) throws Exception {
         /*
         Input: String query
         Output: Bool
         Tests query to see if prohibited commands are in query, and returns true or false
         * */
-//        String lowerCaseString = sqlQuery.toLowerCase();
-//        System.out.println(lowerCaseString);
-//        Pattern pattern = Pattern.compile("(?i).*\\b(DELETE|INSERT|DROP|ADD|CREATE|ALTER|TRUNCATE|UPDATE)\\b.*",
-//                Pattern.CASE_INSENSITIVE | Pattern.MULTILINE);
-//        Matcher match = pattern.matcher(sqlQuery);
         sqlQuery = sqlQuery.trim();
-        String pattern = "(?ism).*\\b(DELETE|Insert |DROP|ADD|CREATE|ALTER|TRUNCATE|UPDATE)\\b.*";
-        return !sqlQuery.matches(pattern);
+        String pattern = "(?ism).*\\b(DELETE|INSERT|DROP|ADD|CREATE|ALTER|TRUNCATE|UPDATE)\\b.*";
+        if (!sqlQuery.matches(pattern)){
+            return true;
+        }else {
+            String message = "Query contains prohibited actions.";
+            throw new Exception(message);
+        }
+    }
+
+    public static boolean singleQueryOnly(String sqlQuery) throws Exception {
+        /*
+        Input: String query
+        Output: Bool
+        Tests query to see if ;followed by a word is present, and lets user know that multiple queries are prohibited
+        */
+        sqlQuery = sqlQuery.trim();
+        String pattern = ".*;\\s+[a-zA-Z].*";
+        if (!sqlQuery.matches(pattern)){
+            return true;
+        }else{
+            String message = "Cannot accept more than one query at a time";
+            throw new Exception(message);
+        }
     }
 
     public static boolean validateURL(String dbURL) {
