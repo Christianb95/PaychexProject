@@ -33,6 +33,7 @@ public class LoginController {
             return ResponseEntity.ok("Login Successful");
 
         } catch (Exception e) {
+            e.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Login failed: " + e.getMessage());
         }
     }

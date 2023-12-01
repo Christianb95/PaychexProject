@@ -128,7 +128,7 @@ const QueryForm = (props)=>{
                            type="sqlQuery" placeholder='enter query' id="sqlQuery" name="sqlQuery"/>
                     <button onClick={querySubmit} type="submit">Submit Query</button>
                     <button disabled={isButtonDisabled} onClick={exportJSON} type="submit">Export JSON</button>
-                    <button onClick={props.openGitModal} type="submit">Upload To Github</button>
+                    <button disabled={true} onClick={props.openGitModal} type="submit">Upload To Github</button>
                     <button onClick={exitToLogin} type="submit">Exit To Login</button>
                 </form>
             </div>

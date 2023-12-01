@@ -8,8 +8,8 @@ const Login = (props) => {
     const [password, setPassword] = useState("");
     const [dbURL, setDBURL] = useState("");
     const [isButtonDisabled, setIsButtonDisabled] = useState(false);
-    const [currLogInTimes, setCurrLogInTimes] = useState(0); //gets reset
-    const [totalLogInTimes, setTotalLogInTimes] = useState(0); //gets reset
+    const [currLogInTimes, setCurrLogInTimes] = useState(parseInt(localStorage.getItem('currLogInTimes')) || 0); //gets reset
+    const [totalLogInTimes, setTotalLogInTimes] = useState(parseInt(localStorage.getItem('totalLogInTimes')) || 0); //gets reset
     const maxLogin = 5; //amount of times user can attempt to log in before disablement
 
     const validate=()=>{
@@ -48,12 +48,24 @@ const Login = (props) => {
         return encryptedData;
     }
 
+    useEffect(() =>{
+        localStorage.setItem("currLogInTimes", currLogInTimes.toString());},
+        [currLogInTimes]);
+
+    useEffect(() =>{
+            localStorage.setItem("totalLogInTimes", totalLogInTimes.toString());},
+        [totalLogInTimes]);
+
     const handleSubmit = async (e) =>{
         e.preventDefault();
         if(validate()){
             try{
                 const response = await api.post("/api/v3/login", {username:username, password:encrypt(password), databaseURL:dbURL});
                 notify("Log in to database successful!", "success");
+                setTotalLogInTimes(0);
+                setCurrLogInTimes(0);
+                localStorage.removeItem('totalLogInTimes');
+                localStorage.removeItem('currLogInTimes');
                 props.onPageSwitch(); //does not need argument passed in due to ternary statement, see App.js
             }catch (error){
                 setCurrLogInTimes(currLogInTimes + 1);
@@ -64,11 +76,13 @@ const Login = (props) => {
         }
     }
 
+
+
     //function to check how many login tries, and if loginTimes === 5, then log in button is disabled for totalLogInTimes * 60 * 1000;
 
     useEffect(() => {
         lockOut();
-        }, [totalLogInTimes]);
+    }, [totalLogInTimes]);
     const lockOut = () =>{
         if (currLogInTimes === 5){
             setIsButtonDisabled(true);
